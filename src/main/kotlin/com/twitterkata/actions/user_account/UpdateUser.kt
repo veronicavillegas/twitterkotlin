@@ -5,8 +5,8 @@ import com.twitterkata.model.User
 import com.twitterkata.infraestructure.repositories.Repository
 import com.twitterkata.infraestructure.repositories.UserRepository
 
-class UpdateUser {
-    private var userRepository: Repository = UserRepository()
+class UpdateUser (userRepo: UserRepository){
+    private var userRepository: Repository = userRepo
     private var validator: NicknameValidator = NicknameValidator()
 
     fun registerUser(user: User) {
@@ -19,18 +19,5 @@ class UpdateUser {
 
     fun updateUser(user: User) {
         userRepository.update(user.nickname, user)
-    }
-
-    fun getFollowers(nickname: String): MutableList<String> {
-        var user: User = userRepository.get(nickname) as User
-        return user.followers
-    }
-
-    fun followUser(user: String, userToFollow: String) {
-        var actualUser = userRepository.get(user) as User
-        var userToFollow = userRepository.get(userToFollow) as User
-
-        userToFollow.followers.add(actualUser.nickname)
-        userRepository.save(userToFollow)
     }
 }

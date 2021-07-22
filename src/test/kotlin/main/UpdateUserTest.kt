@@ -7,6 +7,7 @@ import com.twitterkata.actions.user_account.exceptions.NicknameAlreadyUsed
 
 import org.junit.jupiter.api.Test
 import com.twitterkata.actions.user_account.UpdateUser
+import com.twitterkata.infraestructure.repositories.UserRepository
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -16,7 +17,7 @@ internal class UpdateUserTest {
 
     @BeforeEach
     fun setUp() {
-        updateUser = UpdateUser()
+        updateUser = UpdateUser(UserRepository())
     }
 
     @Test
@@ -65,34 +66,5 @@ internal class UpdateUserTest {
 
         assertEquals("Maria", user.firstName)
         assertEquals("Rodriguez", user.surname)
-    }
-
-    @Test
-    fun userFollowNobody_thenListOfFollowedIsZero() {
-        updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        assertEquals(0, updateUser.getFollowers("@vero").size)
-    }
-
-    @Test
-    fun userFollowSomebody_thenListOfFollowedIsOne() {
-        val user = "@vero"
-        var userToFollow = "@maria"
-        makeUsersToFollow(user, userToFollow)
-        assertEquals(1, updateUser.getFollowers(userToFollow).size)
-    }
-
-    @Test
-    fun whoIsFollowingTo_thenListOfFollowersIsGiven() {
-        val user = "@vero"
-        var userToFollow = "@maria"
-        makeUsersToFollow(user, userToFollow)
-        var followers = updateUser.getFollowers(userToFollow)
-        assertEquals(user, followers.get(0))
-    }
-
-    private fun makeUsersToFollow(user: String, userToFollow: String) {
-        updateUser.registerUser(User("Veronica", "Villegas", user))
-        updateUser.registerUser(User("Maria", "Perez", userToFollow))
-        updateUser.followUser(user, userToFollow)
     }
 }
