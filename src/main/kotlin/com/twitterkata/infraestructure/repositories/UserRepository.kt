@@ -1,12 +1,11 @@
-package main.persistence.impl
+package com.twitterkata.infraestructure.repositories
 
-import main.dto.Dto
-import main.dto.User
-import main.exception.InexistentUser
-import main.persistence.Repository
+import com.twitterkata.model.Dto
+import com.twitterkata.model.User
+import com.twitterkata.actions.user_account.exceptions.InexistentUser
 
-class UserRepository : Repository() {
-    private var registeredUsers  = mutableMapOf<String, User>()
+class UserRepository : Repository {
+    val registeredUsers  = mutableMapOf<String, User>()
 
     override fun save(dto: Dto) {
         var user: User = dto as User

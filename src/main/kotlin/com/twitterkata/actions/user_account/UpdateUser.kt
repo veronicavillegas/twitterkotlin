@@ -1,18 +1,18 @@
-package main
+package com.twitterkata.actions.user_account
 
-import main.dto.Dto
-import main.dto.User
-import main.exception.NicknameAlreadyUsed
-import main.persistence.Repository
-import main.persistence.impl.UserRepository
+import com.twitterkata.model.Dto
+import com.twitterkata.model.User
+import com.twitterkata.actions.user_account.exceptions.NicknameAlreadyUsed
+import com.twitterkata.infraestructure.repositories.Repository
+import com.twitterkata.infraestructure.repositories.UserRepository
 
-class UserService {
+class UpdateUser {
     private var userRepository: Repository = UserRepository()
-    private var validator: Validator = Validator()
+    private var validator: NicknameValidator = NicknameValidator()
 
     fun registerUser(user: User) {
-        validator.validateNickname(user.nickname)
-        checkNicknameAlreadyUsed(user.nickname)
+        var otherUserSameNickname = userRepository.get(user.nickname)
+        validator.validateNickname(user.nickname, otherUserSameNickname as User?)
         userRepository.save(user)
     }
 
@@ -20,12 +20,6 @@ class UserService {
 
     fun updateUser(user: User) {
         userRepository.update(user.nickname, user)
-    }
-
-    private fun checkNicknameAlreadyUsed(nickname: String) {
-        if (userRepository.get(nickname) != null) {
-            throw NicknameAlreadyUsed()
-        }
     }
 
     fun getFollowedUsers(nickname: String): MutableList<String> {

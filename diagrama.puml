@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor User
+User -> UpdateUser: registrarme(data)
+UpdateUser -> NicknameValidator: validate(data)
+NicknameValidator -> UserRepository: getUser()
+UserRepository --> NicknameValidator
+NicknameValidator --> UpdateUser
+@enduml
