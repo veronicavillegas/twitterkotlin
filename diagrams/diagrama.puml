@@ -5,7 +5,7 @@ autonumber
 actor User
 User -> UpdateUser: registrarme(data)
 UpdateUser -> NicknameValidator: validate(data)
-NicknameValidator -> UserRepository: getUser()
-UserRepository --> NicknameValidator
 NicknameValidator --> UpdateUser
+UpdateUser -> UserRepository: save()
+UserRepository --> UpdateUser
 @enduml

@@ -2,7 +2,6 @@ package com.twitterkata.actions.user_account
 
 import com.twitterkata.model.Dto
 import com.twitterkata.model.User
-import com.twitterkata.actions.user_account.exceptions.NicknameAlreadyUsed
 import com.twitterkata.infraestructure.repositories.Repository
 import com.twitterkata.infraestructure.repositories.UserRepository
 
@@ -22,14 +21,16 @@ class UpdateUser {
         userRepository.update(user.nickname, user)
     }
 
-    fun getFollowedUsers(nickname: String): MutableList<String> {
+    fun getFollowers(nickname: String): MutableList<String> {
         var user: User = userRepository.get(nickname) as User
-        return user.followedUsers
+        return user.followers
     }
 
     fun followUser(user: String, userToFollow: String) {
-        var user: User = userRepository.get(user) as User
-        user.followedUsers.add(userToFollow)
-        userRepository.save(user)
+        var actualUser = userRepository.get(user) as User
+        var userToFollow = userRepository.get(userToFollow) as User
+
+        userToFollow.followers.add(actualUser.nickname)
+        userRepository.save(userToFollow)
     }
 }

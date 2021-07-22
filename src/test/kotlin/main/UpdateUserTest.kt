@@ -70,13 +70,29 @@ internal class UpdateUserTest {
     @Test
     fun userFollowNobody_thenListOfFollowedIsZero() {
         updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        assertEquals(0, updateUser.getFollowedUsers("@vero").size)
+        assertEquals(0, updateUser.getFollowers("@vero").size)
     }
 
     @Test
     fun userFollowSomebody_thenListOfFollowedIsOne() {
-        updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        updateUser.followUser("@vero", "@abc")
-        assertEquals(1, updateUser.getFollowedUsers("@vero").size)
+        val user = "@vero"
+        var userToFollow = "@maria"
+        makeUsersToFollow(user, userToFollow)
+        assertEquals(1, updateUser.getFollowers(userToFollow).size)
+    }
+
+    @Test
+    fun whoIsFollowingTo_thenListOfFollowersIsGiven() {
+        val user = "@vero"
+        var userToFollow = "@maria"
+        makeUsersToFollow(user, userToFollow)
+        var followers = updateUser.getFollowers(userToFollow)
+        assertEquals(user, followers.get(0))
+    }
+
+    private fun makeUsersToFollow(user: String, userToFollow: String) {
+        updateUser.registerUser(User("Veronica", "Villegas", user))
+        updateUser.registerUser(User("Maria", "Perez", userToFollow))
+        updateUser.followUser(user, userToFollow)
     }
 }
