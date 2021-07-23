@@ -1,23 +1,39 @@
 package com.twitterkata.actions.user_account
 
-import com.twitterkata.model.Dto
+import com.twitterkata.actions.user_account.exceptions.InvalidNickname
+import com.twitterkata.actions.user_account.exceptions.NicknameAlreadyUsed
 import com.twitterkata.model.User
-import com.twitterkata.infraestructure.repositories.Repository
 import com.twitterkata.infraestructure.repositories.UserRepository
 
 class UpdateUser (userRepo: UserRepository){
-    private var userRepository: Repository = userRepo
-    private var validator: NicknameValidator = NicknameValidator()
+    private val userRepository: UserRepository = userRepo
 
     fun registerUser(user: User) {
-        var otherUserSameNickname = userRepository.get(user.nickname)
-        validator.validateNickname(user.nickname, otherUserSameNickname as User?)
+        val otherUserSameNickname = userRepository.get(user.nickname)
+        validateNickname(user.nickname, otherUserSameNickname as User?)
         userRepository.save(user)
     }
 
-    fun getUser(nickname: String) : Dto? = userRepository.get(nickname)
+    fun getUser(nickname: String) : User? = userRepository.get(nickname)
 
     fun updateUser(user: User) {
         userRepository.update(user.nickname, user)
+    }
+
+    fun validateNickname(nickname: String, otherUserSameNickname: User?) {
+        checkNickname(nickname)
+        checkNicknameAlreadyUsed(otherUserSameNickname)
+    }
+
+    private fun checkNickname(nickname: String) {
+        if (nickname.isNullOrEmpty() || nickname.isBlank()) {
+            throw InvalidNickname()
+        }
+    }
+
+    private fun checkNicknameAlreadyUsed(otherUserSameNickname: User?) {
+        if (otherUserSameNickname != null) {
+            throw NicknameAlreadyUsed()
+        }
     }
 }

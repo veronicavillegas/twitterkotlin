@@ -62,7 +62,7 @@ internal class UpdateUserTest {
     fun updateUser_thenUserIsUpdated() {
         updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
         updateUser.updateUser(User("Maria", "Rodriguez", "@vero"))
-        var user: User = updateUser.getUser("@vero") as User
+        val user: User = updateUser.getUser("@vero") as User
 
         assertEquals("Maria", user.firstName)
         assertEquals("Rodriguez", user.surname)
