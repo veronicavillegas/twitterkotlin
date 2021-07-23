@@ -1,31 +1,26 @@
 package main
 
+import com.twitterkata.actions.user_account.Messages
+import com.twitterkata.actions.user_account.ResultMessage
+import com.twitterkata.actions.user_account.Status
 import com.twitterkata.model.User
 import com.twitterkata.actions.user_account.exceptions.InexistentUser
 import com.twitterkata.actions.user_account.exceptions.InvalidNickname
-import com.twitterkata.actions.user_account.exceptions.NicknameAlreadyUsed
 
 import org.junit.jupiter.api.Test
 import com.twitterkata.actions.user_account.UpdateUser
 import com.twitterkata.infraestructure.repositories.UserRepository
-import org.junit.jupiter.api.BeforeEach
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class UpdateUserTest {
-    private lateinit var updateUser: UpdateUser
-
-    @BeforeEach
-    fun setUp() {
-        updateUser = UpdateUser(UserRepository())
-    }
+    private var updateUser = UpdateUser(UserRepository())
 
     @Test
     fun registerEmptyNickname_thenInvalidNickname(){
-        assertFailsWith<InvalidNickname> (
-            block = {
-                updateUser.registerUser(User("Veronica", "Villegas", ""))
-            })
+        val result = updateUser.registerUser(User("Veronica", "Villegas", ""))
+        assertEquals(Status.FAIL, result.status)
+        assertEquals(Messages.INVALID_NICKNAME, result.message)
     }
 
     @Test
@@ -34,9 +29,20 @@ internal class UpdateUserTest {
     }
 
     @Test
+    fun registerNicknameAlreadyUsed_thenNicknameAlreadyUsedError() {
+        val userRepository = UserRepository()
+        userRepository.save(User("Veronica", "Villegas", "@vero"))
+        updateUser = UpdateUser(userRepository)
+
+        val resultMessage = updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
+        assertEquals(Status.FAIL, resultMessage.status)
+        assertEquals(Messages.NICKNAME_ALREADY_EXISTENT, resultMessage.message)
+    }
+
+    @Test
     fun registerUser_thenUserIsSaved() {
         updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        val user: User? = updateUser.getUser("@vero") as User
+        val user: User? = updateUser.getUser("@vero")
 
         assertEquals("Veronica", user?.firstName)
         assertEquals("Villegas", user?.surname)
@@ -44,27 +50,20 @@ internal class UpdateUserTest {
     }
 
     @Test
-    fun registerNicknameAlreadyUsed_thenNicknameAlreadyUsedError() {
-        updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        assertFailsWith<NicknameAlreadyUsed> (  block = {
-            updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        })
-    }
-
-    @Test
     fun updateInexistentUser_thenInexistentUserError() {
-        assertFailsWith<InexistentUser> (  block = {
-            updateUser.updateUser(User("Yanina", "Rodriguez", "@vero"))
-        })
+        val result = updateUser.updateUser(User("Yanina", "Rodriguez", "@inexistent"))
+
+        assertEquals(Status.FAIL, result.status)
+        assertEquals(Messages.INEXISTENT_USER, result.message)
     }
 
     @Test
     fun updateUser_thenUserIsUpdated() {
         updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
         updateUser.updateUser(User("Maria", "Rodriguez", "@vero"))
-        val user: User = updateUser.getUser("@vero") as User
+        val user: User? = updateUser.getUser("@vero")
 
-        assertEquals("Maria", user.firstName)
-        assertEquals("Rodriguez", user.surname)
+        assertEquals("Maria", user?.firstName)
+        assertEquals("Rodriguez", user?.surname)
     }
 }

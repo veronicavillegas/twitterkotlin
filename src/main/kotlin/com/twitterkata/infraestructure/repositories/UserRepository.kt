@@ -13,7 +13,7 @@ class UserRepository {
     fun get(nickname: String): User? = registeredUsers.get(nickname)
 
     fun update(id: String, userData: User) {
-        var userToUpdate: User = get(id) ?: throw InexistentUser()
+        var userToUpdate: User = get(id) ?: return
         userToUpdate.firstName = userData.firstName
         userToUpdate.surname = userData.surname
         registeredUsers.put(id, userToUpdate)
