@@ -1,10 +1,9 @@
 package com.twitterkata.infraestructure.repositories
 
 import com.twitterkata.model.User
-import com.twitterkata.actions.user_account.exceptions.InexistentUser
 
 class UserRepository {
-    val registeredUsers  = mutableMapOf<String, User>()
+    private val registeredUsers  = mutableMapOf<String, User>()
 
     fun save(user: User) {
         registeredUsers.put(user.nickname, user)

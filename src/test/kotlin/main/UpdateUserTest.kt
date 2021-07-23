@@ -1,17 +1,13 @@
 package main
 
-import com.twitterkata.actions.user_account.Messages
-import com.twitterkata.actions.user_account.ResultMessage
-import com.twitterkata.actions.user_account.Status
+import com.twitterkata.actions.user_account.enums.Messages
+import com.twitterkata.actions.user_account.enums.Status
 import com.twitterkata.model.User
-import com.twitterkata.actions.user_account.exceptions.InexistentUser
-import com.twitterkata.actions.user_account.exceptions.InvalidNickname
 
 import org.junit.jupiter.api.Test
 import com.twitterkata.actions.user_account.UpdateUser
 import com.twitterkata.infraestructure.repositories.UserRepository
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 internal class UpdateUserTest {
     private var updateUser = UpdateUser(UserRepository())
