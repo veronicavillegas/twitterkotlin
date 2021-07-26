@@ -23,7 +23,7 @@ class UpdateUser (userRepo: UserRepository){
         if(userRepository.get(user.nickname) == null) {
             return UpdateUserResult(Status.FAIL, Messages.INEXISTENT_USER)
         }
-        userRepository.update(user.nickname, user)
+        userRepository.update(user)
         return UpdateUserResult(Status.OK, Messages.OK)
     }
 

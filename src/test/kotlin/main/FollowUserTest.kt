@@ -1,14 +1,14 @@
 package main
 
 import com.twitterkata.actions.follow.FollowUser
-import com.twitterkata.infraestructure.repositories.UserRepository
+import com.twitterkata.infraestructure.repositories.UserInMemoryRepository
 import com.twitterkata.model.User
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class FollowUserTest {
-    private val userRepository = UserRepository()
+    private val userRepository = UserInMemoryRepository()
     private val followUser = FollowUser(userRepository)
     private val user = "@vero"
     private val userToFollow = "@maria"
@@ -46,10 +46,10 @@ class FollowUserTest {
     @Test
     fun whenIWantToKnowWhoIsFollowingTo_thenListOfFollowersIsGiven() {
         makeUsersToFollow(user, userToFollow, userRepository)
-        assertEquals(user, followUser.getFollowers(userToFollow).get(0))
+        assertEquals(user, followUser.getFollowers(userToFollow).get(0).nickname)
     }
 
-    private fun makeUsersToFollow(user: String, userToFollow: String, userRepository: UserRepository) {
+    private fun makeUsersToFollow(user: String, userToFollow: String, userRepository: UserInMemoryRepository) {
         followUser.followUser(user, userToFollow)
     }
 }

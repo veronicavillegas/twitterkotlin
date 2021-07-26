@@ -6,11 +6,11 @@ import com.twitterkata.model.User
 
 import org.junit.jupiter.api.Test
 import com.twitterkata.actions.user_account.UpdateUser
-import com.twitterkata.infraestructure.repositories.UserRepository
+import com.twitterkata.infraestructure.repositories.UserInMemoryRepository
 import kotlin.test.assertEquals
 
 internal class UpdateUserTest {
-    private var updateUser = UpdateUser(UserRepository())
+    private var updateUser = UpdateUser(UserInMemoryRepository())
 
     @Test
     fun registerEmptyNickname_thenInvalidNickname(){
@@ -26,7 +26,7 @@ internal class UpdateUserTest {
 
     @Test
     fun registerNicknameAlreadyUsed_thenNicknameAlreadyUsedError() {
-        val userRepository = UserRepository()
+        val userRepository = UserInMemoryRepository()
         userRepository.save(User("Veronica", "Villegas", "@vero"))
         updateUser = UpdateUser(userRepository)
 

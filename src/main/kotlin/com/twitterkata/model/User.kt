@@ -1,10 +1,15 @@
 package com.twitterkata.model
 
 class User(var firstName: String, var surname: String, val nickname: String) {
-    var followers = mutableListOf<String>()
+    private val id: Int
+        get() {
+            return id
+        }
 
-    fun getFollowersOfUser() : List<String> {
-        var followersToReturn = mutableListOf<String>()
+    var followers = mutableListOf<User>()
+
+    fun getFollowersOfUser() : List<User> {
+        var followersToReturn = mutableListOf<User>()
         val iterator = followers.iterator()
         while (iterator.hasNext()) {
             followersToReturn.add(iterator.next())
