@@ -1,10 +1,7 @@
 package com.twitterkata.model
 
 class User(var firstName: String, var surname: String, val nickname: String) {
-    private val id: Int
-        get() {
-            return id
-        }
+    private var id: Int = 0
 
     var followers = mutableListOf<User>()
 
@@ -16,4 +13,10 @@ class User(var firstName: String, var surname: String, val nickname: String) {
         }
         return followersToReturn
     }
+
+    fun setUserId(id: Int) {
+        this.id = id
+    }
+
+    fun getUserId() = this.id
 }

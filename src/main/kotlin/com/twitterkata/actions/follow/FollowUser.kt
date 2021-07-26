@@ -15,8 +15,7 @@ class FollowUser (userRepo: UserRepository) {
         val actualUser = userRepository.get(nickname)
         val userToFollow = userRepository.get(nicknameToFollow)
         if(actualUser != null && userToFollow != null) {
-            userToFollow.followers.add(actualUser)
-            userRepository.update(userToFollow)
+            userRepository.addFollower(userToFollow, actualUser)
         }
     }
 }

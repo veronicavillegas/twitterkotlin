@@ -19,7 +19,8 @@ class UserInMemoryRepository: UserRepository {
         registeredUsers.put(userData.nickname, userToUpdate)
     }
 
-    fun addFollowers() {
-
+    override fun addFollower(actualUser: User, userToFollow: User) {
+        actualUser.followers.add(userToFollow)
+        registeredUsers.put(actualUser.nickname, actualUser)
     }
 }
