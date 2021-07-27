@@ -6,5 +6,4 @@ interface UserRepository {
     fun save(user: User)
     fun get(nickname: String): User?
     fun update(userData: User)
-    fun addFollower(actualUser: User, userToFollow: User)
 }

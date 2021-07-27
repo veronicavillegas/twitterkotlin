@@ -4,37 +4,38 @@ import com.twitterkata.actions.user_account.enums.Messages
 import com.twitterkata.actions.user_account.enums.Status
 import com.twitterkata.model.User
 import com.twitterkata.infraestructure.repositories.UserRepository
+import com.twitterkata.model.ResponseResult
 
 class UpdateUser (userRepo: UserRepository){
-    private val userRepository: UserRepository = userRepo
+    private val userRepository = userRepo
 
-    fun registerUser(user: User) : UpdateUserResult {
+    fun registerUser(user: User) : ResponseResult {
         val validationResult = validateNickname(user.nickname)
         if(validationResult.status == Status.FAIL) {
             return validationResult
         }
         userRepository.save(user)
-        return UpdateUserResult(Status.OK, Messages.OK)
+        return ResponseResult(Status.OK, Messages.OK)
     }
 
     fun getUser(nickname: String) : User? = userRepository.get(nickname)
 
-    fun updateUser(user: User) : UpdateUserResult {
+    fun updateUser(user: User) : ResponseResult {
         if(userRepository.get(user.nickname) == null) {
-            return UpdateUserResult(Status.FAIL, Messages.INEXISTENT_USER)
+            return ResponseResult(Status.FAIL, Messages.INEXISTENT_USER)
         }
         userRepository.update(user)
-        return UpdateUserResult(Status.OK, Messages.OK)
+        return ResponseResult(Status.OK, Messages.OK)
     }
 
-    private fun validateNickname(nickname: String) : UpdateUserResult {
+    private fun validateNickname(nickname: String) : ResponseResult {
         if(isNotValidNickname(nickname)) {
-            return UpdateUserResult(Status.FAIL, Messages.INVALID_NICKNAME)
+            return ResponseResult(Status.FAIL, Messages.INVALID_NICKNAME)
         }
         if(isNicknameAlreadyUsed(nickname)) {
-            return UpdateUserResult(Status.FAIL, Messages.NICKNAME_ALREADY_EXISTENT)
+            return ResponseResult(Status.FAIL, Messages.NICKNAME_ALREADY_EXISTENT)
         }
-        return UpdateUserResult(Status.OK, Messages.OK)
+        return ResponseResult(Status.OK, Messages.OK)
     }
 
     private fun isNotValidNickname(nickname: String) = nickname.isNullOrEmpty() || nickname.isBlank()

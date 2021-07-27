@@ -1,16 +1,20 @@
 package com.twitterkata
 
 import com.twitterkata.actions.user_account.UpdateUser
-import com.twitterkata.infraestructure.repositories.UserMySqlRepository
+import com.twitterkata.infraestructure.repositories.mysql.MySqlConnection
+import com.twitterkata.infraestructure.repositories.mysql.UserMySqlRepository
 import com.twitterkata.model.User
-import java.sql.DriverManager
-import java.sql.SQLException
-import java.util.*
 
 fun main() {
     println("Hello Vero")
+
+    //Obtener la conexion y mandar a MySqlRepo
     //connectMySql()
-    val updateUser = UpdateUser(UserMySqlRepository())
+    val mySqlConnection = MySqlConnection()
+    mySqlConnection.initConnection()
+    val updateUser = UpdateUser(UserMySqlRepository(mySqlConnection))
     //updateUser.registerUser(User("alguien2", "algo2", "@alguien2"))
-    updateUser.updateUser(User("alguien3", "algo3", "@alguien2"))
+    updateUser.updateUser(User("alguien", "algo4", "@alguien2"))
+    //Cerrar conexiones
+    mySqlConnection.close()
 }

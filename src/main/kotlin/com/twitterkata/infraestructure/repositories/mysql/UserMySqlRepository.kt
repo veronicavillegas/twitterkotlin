@@ -1,11 +1,11 @@
-package com.twitterkata.infraestructure.repositories
+package com.twitterkata.infraestructure.repositories.mysql
 
-import com.twitterkata.infraestructure.MySqlConnection
+import com.twitterkata.infraestructure.repositories.UserRepository
 import com.twitterkata.model.User
 import java.sql.*
 
-class UserMySqlRepository: UserRepository {
-    private val mySqlConnection = MySqlConnection()
+class UserMySqlRepository(connection: MySqlConnection): UserRepository {
+    private val mySqlConnection = connection
 
     override fun save(user: User) {
         val query = getInsertQuery(user)
@@ -24,21 +24,15 @@ class UserMySqlRepository: UserRepository {
     override fun update(userData: User) {
         var user = get(userData.nickname)
         if(user != null) {
-            user.firstName = userData.firstName
-            user.surname = userData.surname
-            updateUser(user)
+            updateUser(user.copy(userData.firstName, userData.surname))
         }
     }
 
     private fun updateUser(user: User) {
         val firstname = "firstname = '${user.firstName}'"
         val surname = "surname = '${user.surname}'"
-        val query = "UPDATE users SET $firstname, $surname WHERE users.id = ${user.getUserId()}"
+        val query = "UPDATE users SET $firstname, $surname WHERE users.id = ${user.id}"
         mySqlConnection.executeMySQLQuery(query)
-    }
-
-    override fun addFollower(actualUser: User, userToFollow: User) {
-        TODO("Not yet implemented")
     }
 
     private fun getInsertQuery(user: User): String {
@@ -55,9 +49,6 @@ class UserMySqlRepository: UserRepository {
         val nickname = resultSet.getString("nickname")
         val userId = resultSet.getInt("id")
 
-        var user = User(firstname, surname, nickname)
-        user.setUserId(userId)
-
-        return user
+        return User(firstname, surname, nickname, userId)
     }
 }

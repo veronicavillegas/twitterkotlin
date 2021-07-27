@@ -1,35 +1,47 @@
-package com.twitterkata.infraestructure
+package com.twitterkata.infraestructure.repositories.mysql
 
 import java.sql.*
 import java.util.*
 
 class MySqlConnection {
-    internal var conn: Connection? = null
-    internal var username = "root" // provide the username
-    internal var password = "adminadmin" // provide the corresponding password
+    private var conn: Connection? = null
+    private var stmt: Statement? = null
+    private var resultset: ResultSet? = null
+    private val username = "root" // provide the username
+    private val password = "adminadmin" // provide the corresponding password
+
+    fun initConnection() {
+        if(conn == null) {
+            getMySqlConnection()
+        }
+        initStatment()
+    }
+
+    private fun initStatment() {
+        if (stmt == null) {
+            stmt = conn!!.createStatement()
+        }
+    }
 
     fun executeMySQLQuery(query: String): ResultSet? {
-        getConnection()
-        var stmt: Statement? = null
-        var resultset: ResultSet? = null
         try {
-            stmt = conn!!.createStatement()
             stmt!!.executeQuery("USE twitterkata")
-
-            if (stmt.execute("$query;")) {
-                resultset = stmt.resultSet
+            if (stmt!!.execute("$query;")) {
+                resultset = stmt!!.resultSet
             }
         } catch (ex: SQLException) {
             ex.printStackTrace()
-            closeResultSet(resultset)
-            closeStatement(stmt)
-            closeConnection()
-            conn = null
         }
         return resultset
     }
 
-    private fun getConnection() {
+    fun close() {
+        closeResultSet()
+        closeStatement()
+        closeConnection()
+    }
+
+    private fun getMySqlConnection() {
         val connectionProps = Properties()
         connectionProps.put("user", username)
         connectionProps.put("password", password)
@@ -60,19 +72,19 @@ class MySqlConnection {
         }
     }
 
-    private fun closeStatement(stmt: Statement?) {
+    private fun closeStatement() {
         if (stmt != null) {
             try {
-                stmt.close()
+                stmt!!.close()
             } catch (sqlEx: SQLException) {
             }
         }
     }
 
-    private fun closeResultSet(resultset: ResultSet?) {
+    private fun closeResultSet() {
         if (resultset != null) {
             try {
-                resultset.close()
+                resultset!!.close()
             } catch (sqlEx: SQLException) {
             }
         }

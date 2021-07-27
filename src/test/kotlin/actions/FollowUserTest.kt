@@ -1,7 +1,9 @@
-package main
+package actions
 
 import com.twitterkata.actions.follow.FollowUser
-import com.twitterkata.infraestructure.repositories.UserInMemoryRepository
+import com.twitterkata.infraestructure.repositories.FollowerRepository
+import com.twitterkata.infraestructure.repositories.memory.FollowerInMemoryRepository
+import com.twitterkata.infraestructure.repositories.memory.UserInMemoryRepository
 import com.twitterkata.model.User
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -9,7 +11,8 @@ import kotlin.test.assertEquals
 
 class FollowUserTest {
     private val userRepository = UserInMemoryRepository()
-    private val followUser = FollowUser(userRepository)
+    private val followerRepository = FollowerInMemoryRepository()
+    private val followUser = FollowUser(userRepository, followerRepository)
     private val user = "@vero"
     private val userToFollow = "@maria"
     private val otherFollower = "@pedro"
@@ -22,8 +25,9 @@ class FollowUserTest {
     }
 
     @Test
-    fun whenFollowerNotExists_thenFollowerNotExists() {
+    fun whenFollowerNotExists_thenNoUpdate() {
         followUser.followUser("@noexiste", "@maria")
+        assertEquals(0,  followUser.getFollowers("@noexiste").size)
     }
     @Test
     fun userFollowNobody_thenListOfFollowedIsZero() {
@@ -32,24 +36,24 @@ class FollowUserTest {
 
     @Test
     fun userFollowSomebody_thenListOfFollowedIsOne() {
-        makeUsersToFollow(user, userToFollow, userRepository)
+        makeUsersToFollow(user, userToFollow)
         assertEquals(1, followUser.getFollowers(userToFollow).size)
     }
 
     @Test
     fun whenIHaveTwoFollowers_thenSizeOfFollowersListIsTwo() {
-        makeUsersToFollow(user, userToFollow, userRepository)
-        makeUsersToFollow(otherFollower, userToFollow, userRepository)
+        makeUsersToFollow(user, userToFollow)
+        makeUsersToFollow(otherFollower, userToFollow)
         assertEquals(2, followUser.getFollowers(userToFollow).size)
     }
 
     @Test
     fun whenIWantToKnowWhoIsFollowingTo_thenListOfFollowersIsGiven() {
-        makeUsersToFollow(user, userToFollow, userRepository)
+        makeUsersToFollow(user, userToFollow)
         assertEquals(user, followUser.getFollowers(userToFollow).get(0).nickname)
     }
 
-    private fun makeUsersToFollow(user: String, userToFollow: String, userRepository: UserInMemoryRepository) {
+    private fun makeUsersToFollow(user: String, userToFollow: String) {
         followUser.followUser(user, userToFollow)
     }
 }
