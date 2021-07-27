@@ -7,12 +7,16 @@ class FollowerInMemoryRepository: FollowerRepository {
     private val followersOfUser  = mutableMapOf<String, List<User>>()
 
     override fun addFollower(userToFollow: User, followerUser: User) {
-        val followers = followersOfUser.get(userToFollow.nickname)
+        val followers = followersOfUser[userToFollow.nickname]
         if (followers != null) {
             addFollower(followers, followerUser, userToFollow)
         } else {
             initFollowerListWithFollower(userToFollow, followerUser)
         }
+    }
+
+    override fun getFollowersOfUser(nickname: String): List<User> {
+        return followersOfUser[nickname] ?: listOf()
     }
 
     private fun initFollowerListWithFollower(userToFollow: User, followerUser: User) {
@@ -27,9 +31,5 @@ class FollowerInMemoryRepository: FollowerRepository {
         var mutableListOfFollowers = followers.toMutableList()
         mutableListOfFollowers.add(followerUser)
         followersOfUser[userToFollow.nickname] = mutableListOfFollowers.toList()
-    }
-
-    override fun getFollowersOfUser(nickname: String): List<User> {
-        return followersOfUser[nickname] ?: listOf()
     }
 }
