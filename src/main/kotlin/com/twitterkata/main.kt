@@ -12,6 +12,6 @@ fun main() {
 
     val updateUser = UpdateUser(RepositoryProvider.provideSQLRepository())
     //updateUser.registerUser(User("alguien2", "algo2", "@alguien2"))
-    updateUser.updateUser(User("alguien", "algo4", "@alguien2"))
+    updateUser(User("alguien", "algo4", "@alguien2"))
     //Cerrar conexiones
 }
