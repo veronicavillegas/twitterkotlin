@@ -3,6 +3,7 @@ package actions
 import com.twitterkata.domain.enums.Messages
 import com.twitterkata.domain.enums.Status
 import com.twitterkata.domain.users.User
+import com.twitterkata.domain.users.actions.GetUser
 
 import org.junit.jupiter.api.Test
 import com.twitterkata.domain.users.actions.UpdateUser
@@ -11,7 +12,6 @@ import kotlin.test.assertEquals
 
 internal class UpdateUserTest {
     private var updateUser = UpdateUser(UserInMemoryRepository())
-
     @Test
     fun registerEmptyNickname_thenInvalidNickname(){
         val result = updateUser.registerUser(User("Veronica", "Villegas", ""))
@@ -36,13 +36,11 @@ internal class UpdateUserTest {
     }
 
     @Test
-    fun registerUser_thenUserIsSaved() {
-        updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        val user: User? = updateUser.getUser("@vero")
+    fun registerUser_thenOK() {
+        val response = updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
 
-        assertEquals("Veronica", user?.firstName)
-        assertEquals("Villegas", user?.surname)
-        assertEquals("@vero", user?.nickname)
+        assertEquals(Status.OK, response.status)
+        assertEquals(Messages.OK, response.message)
     }
 
     @Test
@@ -56,10 +54,8 @@ internal class UpdateUserTest {
     @Test
     fun updateUser_thenUserIsUpdated() {
         updateUser.registerUser(User("Veronica", "Villegas", "@vero"))
-        updateUser.updateUser(User("Maria", "Rodriguez", "@vero"))
-        val user: User? = updateUser.getUser("@vero")
-
-        assertEquals("Maria", user?.firstName)
-        assertEquals("Rodriguez", user?.surname)
+        val response = updateUser.updateUser(User("Maria", "Rodriguez", "@vero"))
+        assertEquals(Status.OK, response.status)
+        assertEquals(Messages.OK, response.message)
     }
 }

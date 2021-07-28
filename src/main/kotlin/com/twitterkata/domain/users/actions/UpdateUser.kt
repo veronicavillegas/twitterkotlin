@@ -6,8 +6,7 @@ import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.repositories.UserRepository
 import com.twitterkata.model.ResponseResult
 
-class UpdateUser (userRepo: UserRepository){
-    private val userRepository = userRepo
+class UpdateUser (private val userRepository: UserRepository){
 
     fun registerUser(user: User) : ResponseResult {
         val validationResult = validateNickname(user.nickname)
@@ -18,7 +17,6 @@ class UpdateUser (userRepo: UserRepository){
         return ResponseResult(Status.OK, Messages.OK)
     }
 
-    fun getUser(nickname: String) : User? = userRepository.get(nickname)
 
     fun updateUser(user: User) : ResponseResult {
         if(userRepository.get(user.nickname) == null) {
