@@ -8,16 +8,8 @@ import com.twitterkata.model.ResponseResult
 import com.twitterkata.domain.users.User
 
 class FollowUser (private val userRepository: UserRepository, private val followerRepository: FollowerRepository) {
-    operator fun invoke(nickname: String): List<User> {
-        return getFollowers(nickname)
-    }
 
-    fun getFollowers(nickname: String): List<User> {
-        val user = userRepository.get(nickname) ?: return listOf()
-        return followerRepository.getFollowersOfUser(user)
-    }
-
-    fun followUser(nickname: String, nicknameToFollow: String): ResponseResult {
+    operator fun invoke(nickname: String, nicknameToFollow: String): ResponseResult {
         val followerUser = userRepository.get(nickname)
         val userToFollow = userRepository.get(nicknameToFollow)
         return when {
