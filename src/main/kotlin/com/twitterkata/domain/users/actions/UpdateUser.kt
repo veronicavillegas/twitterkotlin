@@ -1,9 +1,9 @@
-package com.twitterkata.actions.user_account
+package com.twitterkata.domain.users.actions
 
-import com.twitterkata.actions.user_account.enums.Messages
-import com.twitterkata.actions.user_account.enums.Status
-import com.twitterkata.model.User
-import com.twitterkata.infraestructure.repositories.UserRepository
+import com.twitterkata.domain.enums.Messages
+import com.twitterkata.domain.enums.Status
+import com.twitterkata.domain.users.User
+import com.twitterkata.domain.users.repositories.UserRepository
 import com.twitterkata.model.ResponseResult
 
 class UpdateUser (userRepo: UserRepository){

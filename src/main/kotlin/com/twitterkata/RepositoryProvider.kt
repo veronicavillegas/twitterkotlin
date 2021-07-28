@@ -1,8 +1,8 @@
 package com.twitterkata
 
 import com.twitterkata.infraestructure.MySqlConnection
-import com.twitterkata.infraestructure.repositories.UserRepository
-import com.twitterkata.infraestructure.repositories.user.UserMySqlRepository
+import com.twitterkata.domain.users.repositories.UserRepository
+import com.twitterkata.domain.users.repositories.UserMySqlRepository
 
 object RepositoryProvider{
     private val mySqlConnection = MySqlConnection().apply { initConnection() }

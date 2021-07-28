@@ -1,12 +1,12 @@
 package actions
 
-import com.twitterkata.actions.user_account.enums.Messages
-import com.twitterkata.actions.user_account.enums.Status
-import com.twitterkata.model.User
+import com.twitterkata.domain.enums.Messages
+import com.twitterkata.domain.enums.Status
+import com.twitterkata.domain.users.User
 
 import org.junit.jupiter.api.Test
-import com.twitterkata.actions.user_account.UpdateUser
-import com.twitterkata.infraestructure.repositories.user.UserInMemoryRepository
+import com.twitterkata.domain.users.actions.UpdateUser
+import com.twitterkata.domain.users.repositories.UserInMemoryRepository
 import kotlin.test.assertEquals
 
 internal class UpdateUserTest {

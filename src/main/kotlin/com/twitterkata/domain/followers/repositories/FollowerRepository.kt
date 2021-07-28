@@ -1,6 +1,6 @@
-package com.twitterkata.infraestructure.repositories
+package com.twitterkata.domain.followers.repositories
 
-import com.twitterkata.model.User
+import com.twitterkata.domain.users.User
 
 interface FollowerRepository {
     fun addFollower(userToFollow: User, followerUser: User)

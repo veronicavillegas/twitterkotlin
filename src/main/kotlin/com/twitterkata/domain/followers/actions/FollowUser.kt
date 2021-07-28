@@ -1,11 +1,11 @@
-package com.twitterkata.actions.follow
+package com.twitterkata.domain.followers.actions
 
-import com.twitterkata.actions.user_account.enums.Messages
-import com.twitterkata.actions.user_account.enums.Status
-import com.twitterkata.infraestructure.repositories.FollowerRepository
-import com.twitterkata.infraestructure.repositories.UserRepository
+import com.twitterkata.domain.enums.Messages
+import com.twitterkata.domain.enums.Status
+import com.twitterkata.domain.followers.repositories.FollowerRepository
+import com.twitterkata.domain.users.repositories.UserRepository
 import com.twitterkata.model.ResponseResult
-import com.twitterkata.model.User
+import com.twitterkata.domain.users.User
 
 class FollowUser (private val userRepository: UserRepository, private val followerRepository: FollowerRepository) {
     operator fun invoke(nickname: String): List<User> {

@@ -1,9 +1,7 @@
 package com.twitterkata
 
-import com.twitterkata.actions.user_account.UpdateUser
-import com.twitterkata.infraestructure.MySqlConnection
-import com.twitterkata.infraestructure.repositories.user.UserMySqlRepository
-import com.twitterkata.model.User
+import com.twitterkata.domain.users.actions.UpdateUser
+import com.twitterkata.domain.users.User
 
 fun main() {
     println("Hello Vero")

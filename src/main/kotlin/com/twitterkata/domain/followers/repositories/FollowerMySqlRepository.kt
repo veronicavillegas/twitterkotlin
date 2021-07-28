@@ -1,8 +1,7 @@
-package com.twitterkata.infraestructure.repositories.follower
+package com.twitterkata.domain.followers.repositories
 
 import com.twitterkata.infraestructure.DataBaseConnection
-import com.twitterkata.infraestructure.repositories.FollowerRepository
-import com.twitterkata.model.User
+import com.twitterkata.domain.users.User
 
 class FollowerMySqlRepository(connection: DataBaseConnection): FollowerRepository {
     private val mySqlConnection = connection

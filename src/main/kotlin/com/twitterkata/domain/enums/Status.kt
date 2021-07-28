@@ -1,4 +1,4 @@
-package com.twitterkata.actions.user_account.enums
+package com.twitterkata.domain.enums
 
 enum class Status(val status: String) {
     OK("ok"),

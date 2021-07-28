@@ -2,8 +2,8 @@ package infraestructure.mysql
 
 import com.nhaarman.mockitokotlin2.any
 import com.twitterkata.infraestructure.DataBaseConnection
-import com.twitterkata.infraestructure.repositories.follower.FollowerMySqlRepository
-import com.twitterkata.model.User
+import com.twitterkata.domain.followers.repositories.FollowerMySqlRepository
+import com.twitterkata.domain.users.User
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock

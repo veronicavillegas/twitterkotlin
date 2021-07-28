@@ -1,9 +1,9 @@
 package actions
 
-import com.twitterkata.actions.follow.FollowUser
-import com.twitterkata.infraestructure.repositories.follower.FollowerInMemoryRepository
-import com.twitterkata.infraestructure.repositories.user.UserInMemoryRepository
-import com.twitterkata.model.User
+import com.twitterkata.domain.followers.actions.FollowUser
+import com.twitterkata.domain.followers.repositories.FollowerInMemoryRepository
+import com.twitterkata.domain.users.repositories.UserInMemoryRepository
+import com.twitterkata.domain.users.User
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

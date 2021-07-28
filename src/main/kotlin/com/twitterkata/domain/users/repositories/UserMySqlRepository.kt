@@ -1,8 +1,7 @@
-package com.twitterkata.infraestructure.repositories.user
+package com.twitterkata.domain.users.repositories
 
 import com.twitterkata.infraestructure.DataBaseConnection
-import com.twitterkata.infraestructure.repositories.UserRepository
-import com.twitterkata.model.User
+import com.twitterkata.domain.users.User
 import java.sql.*
 
 class UserMySqlRepository(connection: DataBaseConnection): UserRepository {
