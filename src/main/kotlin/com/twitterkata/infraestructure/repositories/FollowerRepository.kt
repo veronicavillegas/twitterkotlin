@@ -4,5 +4,5 @@ import com.twitterkata.model.User
 
 interface FollowerRepository {
     fun addFollower(userToFollow: User, followerUser: User)
-    fun getFollowersOfUser(nickname: String): List<User>
+    fun getFollowersOfUser(user: User): List<User>
 }

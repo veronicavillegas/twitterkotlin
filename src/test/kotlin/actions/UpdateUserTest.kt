@@ -6,7 +6,7 @@ import com.twitterkata.model.User
 
 import org.junit.jupiter.api.Test
 import com.twitterkata.actions.user_account.UpdateUser
-import com.twitterkata.infraestructure.repositories.memory.UserInMemoryRepository
+import com.twitterkata.infraestructure.repositories.user.UserInMemoryRepository
 import kotlin.test.assertEquals
 
 internal class UpdateUserTest {

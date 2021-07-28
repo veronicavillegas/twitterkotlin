@@ -1,4 +1,4 @@
-package com.twitterkata.infraestructure.repositories.memory
+package com.twitterkata.infraestructure.repositories.user
 
 import com.twitterkata.infraestructure.repositories.UserRepository
 import com.twitterkata.model.User

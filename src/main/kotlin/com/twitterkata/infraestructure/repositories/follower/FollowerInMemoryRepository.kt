@@ -1,4 +1,4 @@
-package com.twitterkata.infraestructure.repositories.memory
+package com.twitterkata.infraestructure.repositories.follower
 
 import com.twitterkata.infraestructure.repositories.FollowerRepository
 import com.twitterkata.model.User
@@ -15,8 +15,8 @@ class FollowerInMemoryRepository: FollowerRepository {
         }
     }
 
-    override fun getFollowersOfUser(nickname: String): List<User> {
-        return followersOfUser[nickname] ?: listOf()
+    override fun getFollowersOfUser(user: User): List<User> {
+        return followersOfUser[user.nickname] ?: listOf()
     }
 
     private fun initFollowerListWithFollower(userToFollow: User, followerUser: User) {

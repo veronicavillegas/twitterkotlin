@@ -1,29 +1,24 @@
-package com.twitterkata.infraestructure.repositories.mysql
+package com.twitterkata.infraestructure
 
+import com.twitterkata.infraestructure.DataBaseConnection
 import java.sql.*
 import java.util.*
 
-class MySqlConnection {
+class MySqlConnection: DataBaseConnection {
     private var conn: Connection? = null
     private var stmt: Statement? = null
     private var resultset: ResultSet? = null
     private val username = "root" // provide the username
     private val password = "adminadmin" // provide the corresponding password
 
-    fun initConnection() {
+    override fun initConnection() {
         if(conn == null) {
             getMySqlConnection()
         }
         initStatment()
     }
 
-    private fun initStatment() {
-        if (stmt == null) {
-            stmt = conn!!.createStatement()
-        }
-    }
-
-    fun executeMySQLQuery(query: String): ResultSet? {
+    override fun executeMySQLQuery(query: String): ResultSet? {
         try {
             stmt!!.executeQuery("USE twitterkata")
             if (stmt!!.execute("$query;")) {
@@ -35,7 +30,7 @@ class MySqlConnection {
         return resultset
     }
 
-    fun close() {
+    override fun close() {
         closeResultSet()
         closeStatement()
         closeConnection()
@@ -61,7 +56,12 @@ class MySqlConnection {
             ex.printStackTrace()
         }
     }
-
+    
+    private fun initStatment() {
+        if (stmt == null) {
+            stmt = conn!!.createStatement()
+        }
+    }
 
     private fun closeConnection() {
         if (conn != null) {

@@ -7,13 +7,14 @@ import com.twitterkata.infraestructure.repositories.UserRepository
 import com.twitterkata.model.ResponseResult
 import com.twitterkata.model.User
 
-class FollowUser (userRepo: UserRepository, followerRepo: FollowerRepository) {
-    private val userRepository: UserRepository = userRepo
-    private val followerRepository: FollowerRepository = followerRepo
+class FollowUser (private val userRepository: UserRepository, private val followerRepository: FollowerRepository) {
+    operator fun invoke(nickname: String): List<User> {
+        return getFollowers(nickname)
+    }
 
     fun getFollowers(nickname: String): List<User> {
         val user = userRepository.get(nickname) ?: return listOf()
-        return followerRepository.getFollowersOfUser(user.nickname)
+        return followerRepository.getFollowersOfUser(user)
     }
 
     fun followUser(nickname: String, nicknameToFollow: String): ResponseResult {

@@ -1,10 +1,11 @@
-package com.twitterkata.infraestructure.repositories.mysql
+package com.twitterkata.infraestructure.repositories.user
 
+import com.twitterkata.infraestructure.DataBaseConnection
 import com.twitterkata.infraestructure.repositories.UserRepository
 import com.twitterkata.model.User
 import java.sql.*
 
-class UserMySqlRepository(connection: MySqlConnection): UserRepository {
+class UserMySqlRepository(connection: DataBaseConnection): UserRepository {
     private val mySqlConnection = connection
 
     override fun save(user: User) {

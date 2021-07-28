@@ -1,9 +1,8 @@
 package actions
 
 import com.twitterkata.actions.follow.FollowUser
-import com.twitterkata.infraestructure.repositories.FollowerRepository
-import com.twitterkata.infraestructure.repositories.memory.FollowerInMemoryRepository
-import com.twitterkata.infraestructure.repositories.memory.UserInMemoryRepository
+import com.twitterkata.infraestructure.repositories.follower.FollowerInMemoryRepository
+import com.twitterkata.infraestructure.repositories.user.UserInMemoryRepository
 import com.twitterkata.model.User
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +30,7 @@ class FollowUserTest {
     }
     @Test
     fun userFollowNobody_thenListOfFollowedIsZero() {
-        assertEquals(0, followUser.getFollowers(user).size)
+        assertEquals(0, followUser(user).size)
     }
 
     @Test
