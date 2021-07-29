@@ -19,14 +19,14 @@ class RegisterUserShould {
     private val userToRegister = User("Veronica", "Villegas", "@vero")
 
     @Test
-    fun whenInvalidNicknameThrowException(){
+    fun throwExceptionWhenInvalidNickname(){
         assertThrows<InvalidNicknameException> {
             registerUser(User("Veronica", "Villegas", ""))
         }
     }
 
     @Test
-    fun registerNicknameAlreadyUsed_thenNicknameAlreadyUsedError() {
+    fun throwExceptionWhenNicknameAlreadyUsed() {
         Mockito.`when`(userRepository.get(userToRegister.nickname)).thenReturn(User("a", "b", "@vero"))
 
         assertThrows<NicknameAlreadyUsedException> {
@@ -35,7 +35,7 @@ class RegisterUserShould {
     }
 
     @Test
-    fun whenRegisterUser_thenInvokeSaveToUserRepo(){
+    fun invokeSaveToUserRepoWhenRegisterUser(){
         registerUser(userToRegister)
         Mockito.verify(userRepository).save(userToRegister)
     }
