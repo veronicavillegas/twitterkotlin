@@ -45,7 +45,7 @@ class FollowUserShould {
     }
 
     @Test
-    fun callToFollowerRepoToAddFollower() {
+    fun askToFollowerRepoToAddFollower() {
         Mockito.`when`(userRepository.get("@maria")).thenReturn(followerUser)
         Mockito.`when`(userRepository.get("@pedro")).thenReturn(userToFollow)
 
