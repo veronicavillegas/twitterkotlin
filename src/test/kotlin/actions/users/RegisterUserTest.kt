@@ -6,11 +6,13 @@ import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.actions.RegisterUser
 import com.twitterkata.domain.users.actions.UpdateUser
 import com.twitterkata.domain.users.repositories.UserInMemoryRepository
+import com.twitterkata.domain.users.repositories.UserRepository
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 import kotlin.test.assertEquals
 
 class RegisterUserTest {
-    val userRepository = UserInMemoryRepository()
+    val userRepository = mock(UserRepository::class.java)
     private var registerUser = RegisterUser(userRepository)
 
     @Test
