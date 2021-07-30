@@ -1,8 +1,7 @@
 package com.twitterkata
 
-import com.twitterkata.api.MainVerticle
+import com.twitterkata.api.VertxServer
 
 fun main() {
-    val vertx = MainVerticle()
-    vertx.start()
+    VertxServer().start()
 }
