@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.32"
+    application
 }
 
 group = "me.user"
@@ -11,11 +12,19 @@ repositories {
     mavenCentral()
 }
 
+val vertxVersion = "4.1.2"
+val junitJupiterVersion = "5.6.0"
 dependencies {
+    implementation( "com.google.code.gson:gson:2.8.7")
+    implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
+    implementation("io.vertx:vertx-lang-kotlin")
+    testImplementation("io.vertx:vertx-junit5")
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
+    implementation ("io.vertx:vertx-web")
 }
 
 tasks.test {

@@ -15,7 +15,7 @@ class FollowUser (private val userRepository: UserRepository, private val follow
         val userToFollow = userRepository.get(nicknameToFollow)
 
         if(followerUser == null || userToFollow == null) {
-            return throw InexistentUserException()
+            throw InexistentUserException()
         }
         followerRepository.addFollower(userToFollow, followerUser)
     }
