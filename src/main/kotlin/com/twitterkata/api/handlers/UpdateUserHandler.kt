@@ -2,7 +2,8 @@ package com.twitterkata.api.handlers
 
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
-class RegisterUser : Handler<RoutingContext> {
+
+class UpdateUserHandler : Handler<RoutingContext> {
     override fun handle(event: RoutingContext?) {
         TODO("Not yet implemented")
     }
