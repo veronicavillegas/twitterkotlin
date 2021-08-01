@@ -47,7 +47,7 @@ class UserMySqlRepository(connection: DataBaseConnection): UserRepository {
         val firstname = resultSet.getString("firstname")
         val surname = resultSet.getString("surname")
         val nickname = resultSet.getString("nickname")
-        val userId = resultSet.getInt("id")
+        val userId = resultSet.getString("id")
 
         return User(firstname, surname, nickname, userId)
     }

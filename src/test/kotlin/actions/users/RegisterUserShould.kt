@@ -1,42 +1,54 @@
 package actions.users
 
-import com.twitterkata.domain.enums.Messages
-import com.twitterkata.domain.enums.Status
 import com.twitterkata.domain.users.InvalidNicknameException
 import com.twitterkata.domain.users.NicknameAlreadyUsedException
+import com.twitterkata.domain.users.RegisterData
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.actions.RegisterUser
 import com.twitterkata.domain.users.repositories.UserRepository
+import com.twitterkata.infraestructure.IDGenerator
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import kotlin.test.assertEquals
 
 class RegisterUserShould {
     val userRepository = mock(UserRepository::class.java)
-    private val registerUser = RegisterUser(userRepository)
-    private val userToRegister = User("Veronica", "Villegas", "@vero")
+    val idGenerator = mock(IDGenerator::class.java)
+
+    private val registerUser = RegisterUser(userRepository, idGenerator)
+    private val registerData = RegisterData("Veronica", "Villegas", "@vero")
+    val idGenerated = "123"
+
+    @BeforeEach
+    fun setUp() {
+        Mockito.`when`(idGenerator.generateId()).thenReturn(idGenerated)
+    }
 
     @Test
     fun throwExceptionWhenInvalidNickname(){
         assertThrows<InvalidNicknameException> {
-            registerUser(User("Veronica", "Villegas", ""))
+            registerUser(RegisterData("Veronica", "Villegas", ""))
         }
     }
 
     @Test
     fun throwExceptionWhenNicknameAlreadyUsed() {
-        Mockito.`when`(userRepository.get(userToRegister.nickname)).thenReturn(User("a", "b", "@vero"))
+        Mockito.`when`(userRepository.get(registerData.nickname)).thenReturn(User("a", "b", "@vero", "123"))
 
         assertThrows<NicknameAlreadyUsedException> {
-            registerUser(userToRegister)
+            registerUser(registerData)
         }
     }
 
     @Test
     fun invokeSaveToUserRepoWhenRegisterUser(){
-        registerUser(userToRegister)
-        Mockito.verify(userRepository).save(userToRegister)
+        registerUser(registerData)
+        Mockito.verify(userRepository).save(registerDataToUser(registerData))
+    }
+
+    private fun registerDataToUser(userToRegister: RegisterData): User {
+        return User(userToRegister.firstName, userToRegister.surname, userToRegister.nickname, idGenerated)
     }
 }
