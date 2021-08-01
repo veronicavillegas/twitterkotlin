@@ -17,7 +17,7 @@ class GetFollowersShould {
     private val followerRepository = Mockito.mock(FollowerRepository::class.java)
     private val getFollowers = GetFollowers(userRepository, followerRepository)
     
-    val user = User("maria", "perez", "@maria", 1)
+    val user = User("maria", "perez", "@maria", "1")
 
     @Test
     fun throwErrorWhenUserNotExist(){
@@ -36,7 +36,7 @@ class GetFollowersShould {
     @Test
     fun returnFollowersOfUser() {
         Mockito.`when`(userRepository.get(userNickname)).thenReturn(user)
-        val expectedFollowers = listOf(User("first", "sur", "@nick"))
+        val expectedFollowers = listOf(User("first", "sur", "@nick", "0"))
         Mockito.`when`(followerRepository.getFollowersOfUser(user)).thenReturn(expectedFollowers)
 
         val actualFollowers = getFollowers(userNickname)
