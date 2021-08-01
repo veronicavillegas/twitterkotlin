@@ -16,8 +16,8 @@ class FollowUserShould {
     private val followerRepository = mock(FollowerRepository::class.java)
     private val followUser = FollowUser(userRepository, followerRepository)
 
-    private val userToFollow = User("pedro", "pe", "@pedro", 0)
-    private val followerUser = User("maria", "ma", "@maria", 0)
+    private val userToFollow = User("pedro", "pe", "@pedro", "000")
+    private val followerUser = User("maria", "ma", "@maria", "000")
 
     @BeforeEach
     fun setUp() {

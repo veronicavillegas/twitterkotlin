@@ -15,11 +15,12 @@ class FollowerMySqlRepositoryShould {
     private val databaseConnection = mock(DataBaseConnection::class.java)
     private val followerMySqlRepository = FollowerMySqlRepository(databaseConnection)
 
+
     @Test
     fun generateCorrectFollowerInsertQuery() {
         val expectedQuery = givenInsertFollowerQuery()
-        val userToFollow = givenUser("vero", "villegas", "@vero", 1)
-        val followerUser = givenUser("maria", "paez", "@maria", 2)
+        val userToFollow = givenUser("vero", "villegas", "@vero", "1")
+        val followerUser = givenUser("maria", "paez", "@maria", "2")
 
         Mockito.`when`(databaseConnection.executeMySQLQuery(expectedQuery)).thenReturn(null)
         whenAddFollower(userToFollow, followerUser)
@@ -29,7 +30,7 @@ class FollowerMySqlRepositoryShould {
 
     @Test
     fun generateCorrectSelectAllFollowersQuery(){
-        val user =  givenUser("vero", "villegas", "@vero", 1)
+        val user =  givenUser("vero", "villegas", "@vero", "1")
         val expectedQuery = givenGetFollowersOfUserQuery(user.id)
 
         Mockito.`when`(databaseConnection.executeMySQLQuery(expectedQuery)).thenReturn(null)
@@ -41,8 +42,8 @@ class FollowerMySqlRepositoryShould {
     @Ignore
     @Test
     fun returnFollowersOfUser() {
-        val user =  givenUser("vero", "villegas", "@vero", 1)
-        val follower = givenUser("maria", "perez", "@maria", 2)
+        val user =  givenUser("vero", "villegas", "@vero", "1")
+        val follower = givenUser("maria", "perez", "@maria", "2")
         val expectedFollowers = listOf(follower)
 
         val resultSet = mock(ResultSet::class.java)
@@ -62,7 +63,7 @@ class FollowerMySqlRepositoryShould {
         followerMySqlRepository.addFollower(userToFollow = userToFollow, followerUser = followerUser)
     }
 
-    private fun givenUser(firstname: String, surname: String, nickname: String, id: Int) = User(firstname, surname, nickname, id)
+    private fun givenUser(firstname: String, surname: String, nickname: String, id: String) = User(firstname, surname, nickname, id)
 
     private fun givenInsertFollowerQuery() = "INSERT INTO followers (id_user, id_follower) VALUES (1, 2)"
 
@@ -71,6 +72,6 @@ class FollowerMySqlRepositoryShould {
         followerMySqlRepository.getFollowersOfUser(user)
     }
 
-    private fun givenGetFollowersOfUserQuery(userId: Int) = "SELECT id_follower FROM followers WHERE id_user = $userId"
+    private fun givenGetFollowersOfUserQuery(userId: String) = "SELECT id_follower FROM followers WHERE id_user = $userId"
 
 }

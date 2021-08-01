@@ -16,7 +16,7 @@ class FollowerMySqlRepository(connection: DataBaseConnection): FollowerRepositor
         return listOf()
     }
 
-    private fun getFollowersOfUserQuery(userId: Int) = "SELECT id_follower FROM followers WHERE id_user = $userId"
+    private fun getFollowersOfUserQuery(userId: String) = "SELECT id_follower FROM followers WHERE id_user = $userId"
 
     private fun getInsertQuery(values: String): String {
         return "INSERT INTO followers (id_user, id_follower) VALUES ($values)"
