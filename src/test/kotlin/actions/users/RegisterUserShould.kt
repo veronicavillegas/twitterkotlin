@@ -2,7 +2,7 @@ package actions.users
 
 import com.twitterkata.domain.users.InvalidNicknameException
 import com.twitterkata.domain.users.NicknameAlreadyUsedException
-import com.twitterkata.domain.users.RegisterData
+import com.twitterkata.domain.users.RegisterUserData
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.actions.RegisterUser
 import com.twitterkata.domain.users.repositories.UserRepository
@@ -18,7 +18,7 @@ class RegisterUserShould {
     val idGenerator = mock(IDGenerator::class.java)
 
     private val registerUser = RegisterUser(userRepository, idGenerator)
-    private val registerData = RegisterData("Veronica", "Villegas", "@vero")
+    private val registerData = RegisterUserData("Veronica", "Villegas", "@vero")
     val idGenerated = "123"
 
     @BeforeEach
@@ -29,7 +29,7 @@ class RegisterUserShould {
     @Test
     fun throwExceptionWhenInvalidNickname(){
         assertThrows<InvalidNicknameException> {
-            registerUser(RegisterData("Veronica", "Villegas", ""))
+            registerUser(RegisterUserData("Veronica", "Villegas", ""))
         }
     }
 
@@ -48,7 +48,7 @@ class RegisterUserShould {
         Mockito.verify(userRepository).save(registerDataToUser(registerData))
     }
 
-    private fun registerDataToUser(userToRegister: RegisterData): User {
-        return User(userToRegister.firstName, userToRegister.surname, userToRegister.nickname, idGenerated)
+    private fun registerDataToUser(userToRegisterUser: RegisterUserData): User {
+        return User(userToRegisterUser.firstname, userToRegisterUser.surname, userToRegisterUser.nickname, idGenerated)
     }
 }
