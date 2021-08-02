@@ -28,3 +28,4 @@ hs_err_pid*
 *.gradle/
 *build/
 *.kotlin_module
+.idea/compiler.xml
