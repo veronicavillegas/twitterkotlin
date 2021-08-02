@@ -22,8 +22,7 @@ class RegisterUserHandlerShould {
     val jsonUtility = mock(JsonUtility::class.java)
     val response = mock(HttpServerResponse::class.java)
     val registerUserHandler = RegisterUserHandler(registerUser, jsonUtility)
-
-
+    
     @Ignore
     @Test
     fun whenRegisterDataIsGiven_ThenAUserShouldBeSaved() {
@@ -39,12 +38,9 @@ class RegisterUserHandlerShould {
     private fun given() {
         Mockito.`when`(event.getBodyAsString()).thenReturn(requestBody)
         Mockito.`when`(event.response()).thenReturn(response)
-
         Mockito.`when`(jsonUtility.jsonToRegisterData(requestBody)).thenReturn(registerData)
         Mockito.`when`(jsonUtility.encode(registerData)).thenReturn(requestBody)
-
         Mockito.doNothing().`when`(registerUser).invoke(registerData)
-
         Mockito.`when`(response.setStatusCode(201)).thenReturn(response)
     }
 
