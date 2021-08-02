@@ -1,27 +1,23 @@
 package com.twitterkata.api.handlers
 
-import com.google.gson.Gson
-import com.twitterkata.domain.users.RegisterData
+import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.users.actions.RegisterUser
-import com.twitterkata.domain.users.repositories.UserMySqlRepository
-import com.twitterkata.domain.users.repositories.UserRepository
-import com.twitterkata.infraestructure.MySqlConnection
-import com.twitterkata.infraestructure.UUIDGenerator
+import io.netty.handler.codec.http.HttpResponse
+import io.netty.handler.codec.http.HttpResponseStatus
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 
-class RegisterUserHandler : Handler<RoutingContext> {
-    // TODO: Reemplazar por factory
-    val connection = MySqlConnection()
-    val userRepository = UserMySqlRepository(connection)
-    val registerUser = RegisterUser(userRepository = userRepository, idGenerator = UUIDGenerator())
+class RegisterUserHandler(private val registerUser: RegisterUser,
+                          private val jsonUtility: JsonUtility) : Handler<RoutingContext> {
 
     override fun handle(event: RoutingContext) {
-        registerUser.invoke(getRegisterData(event) )
-        event.response().end()
-    }
+        val registerData = jsonUtility.jsonToRegisterData(event.getBodyAsString())
 
-    private fun getRegisterData(event: RoutingContext) =
-        Gson().fromJson(event.getBodyAsString(""), RegisterData::class.java)
+        registerUser.invoke(registerData)
+
+        event.response()
+            .setStatusCode(HttpResponseStatus.CREATED.code())
+            .end(jsonUtility.encode(registerData));
+    }
 
 }
