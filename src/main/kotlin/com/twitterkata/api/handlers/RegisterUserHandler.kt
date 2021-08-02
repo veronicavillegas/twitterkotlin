@@ -1,6 +1,9 @@
 package com.twitterkata.api.handlers
 
 import com.twitterkata.domain.JsonUtility
+import com.twitterkata.domain.users.InvalidNicknameException
+import com.twitterkata.domain.users.NicknameAlreadyUsedException
+import com.twitterkata.domain.users.RegisterUserData
 import com.twitterkata.domain.users.actions.RegisterUser
 import io.netty.handler.codec.http.HttpResponse
 import io.netty.handler.codec.http.HttpResponseStatus
@@ -12,12 +15,31 @@ class RegisterUserHandler(private val registerUser: RegisterUser,
 
     override fun handle(event: RoutingContext) {
         val registerData = jsonUtility.jsonToRegisterData(event.getBodyAsString())
+        prepareResponse(registerData, event)
+    }
 
-        registerUser.invoke(registerData)
+    private fun prepareResponse(
+        registerData: RegisterUserData,
+        event: RoutingContext
+    ) {
+        try {
+            registerUser.invoke(registerData)
+            setResponse(event, HttpResponseStatus.CREATED.code(), jsonUtility.encode(registerData))
+        } catch (ex: InvalidNicknameException) {
+            setResponse(event, HttpResponseStatus.BAD_REQUEST.code(), "Invalid nickname")
+        } catch (ex: NicknameAlreadyUsedException) {
+            setResponse(event, HttpResponseStatus.BAD_REQUEST.code(), "Nickname already used")
+        }
+    }
 
+    private fun setResponse(
+        event: RoutingContext,
+        statusCode: Int,
+        responseString: String
+    ) {
         event.response()
-            .setStatusCode(HttpResponseStatus.CREATED.code())
-            .end(jsonUtility.encode(registerData));
+            .setStatusCode(statusCode)
+            .end(responseString);
     }
 
 }

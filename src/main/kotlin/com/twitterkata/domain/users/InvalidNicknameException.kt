@@ -1,5 +1,7 @@
 package com.twitterkata.domain.users
 
-class InvalidNicknameException : Exception() {
+import java.lang.RuntimeException
+
+class InvalidNicknameException : RuntimeException() {
 
 }

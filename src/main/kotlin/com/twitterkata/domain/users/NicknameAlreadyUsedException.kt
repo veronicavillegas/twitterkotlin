@@ -1,5 +1,7 @@
 package com.twitterkata.domain.users
 
-class NicknameAlreadyUsedException : Exception() {
+import java.lang.RuntimeException
+
+class NicknameAlreadyUsedException : RuntimeException() {
 
 }
