@@ -26,6 +26,7 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
     testImplementation ("org.mockito:mockito-inline:2.13.0")
     implementation ("io.vertx:vertx-web")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.8.9")
 }
 
 tasks.test {
