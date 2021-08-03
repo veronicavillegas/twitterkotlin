@@ -14,7 +14,7 @@ class RegisterUserHandler(private val registerUser: RegisterUser,
                           private val jsonUtility: JsonUtility) : Handler<RoutingContext> {
 
     override fun handle(event: RoutingContext) {
-        val registerData = jsonUtility.jsonToRegisterData(event.getBodyAsString())
+        val registerData = jsonUtility.jsonToRegisterData(event.getBodyAsString(""))
         prepareResponse(registerData, event)
     }
 
@@ -37,9 +37,8 @@ class RegisterUserHandler(private val registerUser: RegisterUser,
         statusCode: Int,
         responseString: String
     ) {
-        event.response()
-            .setStatusCode(statusCode)
-            .end(responseString);
+        event.response().statusCode = statusCode
+        event.response().end(responseString)
     }
 
 }

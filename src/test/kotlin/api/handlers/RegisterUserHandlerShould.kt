@@ -1,5 +1,6 @@
 package api.handlers
 
+import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.verify
 import com.twitterkata.api.handlers.RegisterUserHandler
@@ -19,13 +20,14 @@ import kotlin.test.assertEquals
 
 
 class RegisterUserHandlerShould {
-    val requestBody = "{\n\t\"nickname\": \"@vero\", \n\t\"surname\": \"villegas\", \n\t\"firstname\": \"vero\"\n}"
     val registerData = RegisterUserData("vero", "villegas","@vero")
+    val requestBody = Gson().toJson(registerData)
 
     val registerUser = mock(RegisterUser::class.java)
     val event = mock(RoutingContext::class.java)
     val jsonUtility = mock(JsonUtility::class.java)
     val response = mock(HttpServerResponse::class.java)
+
     val registerUserHandler = RegisterUserHandler(registerUser, jsonUtility)
 
     @Test
@@ -86,7 +88,6 @@ class RegisterUserHandlerShould {
         Mockito.`when`(event.response()).thenReturn(response)
         Mockito.`when`(jsonUtility.jsonToRegisterData(requestBody)).thenReturn(registerData)
         Mockito.`when`(jsonUtility.encode(registerData)).thenReturn(requestBody)
-        Mockito.`when`(response.setStatusCode(any())).thenReturn(response)
     }
 
 }
