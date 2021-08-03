@@ -1,17 +1,19 @@
 package com.twitterkata.domain.users.actions
 
-import com.twitterkata.domain.enums.Messages
-import com.twitterkata.domain.enums.Status
+import com.twitterkata.domain.UpdateUserData
 import com.twitterkata.domain.users.InexistentUserException
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.repositories.UserRepository
-import com.twitterkata.model.ResponseResult
 
 class UpdateUser (private val userRepository: UserRepository){
-    operator fun invoke(user: User) {
-        if(userRepository.get(user.nickname) == null) {
+    operator fun invoke(nickname: String, updateUserData: UpdateUserData) {
+        val userToUpdate = userRepository.get(nickname)
+        if(userToUpdate == null) {
             throw InexistentUserException()
         }
-        userRepository.update(user)
+        userRepository.update(getUserToUpdate(userToUpdate, updateUserData))
     }
+
+    private fun getUserToUpdate(userToUpdate: User, data: UpdateUserData) =
+        userToUpdate.copy(data.firstname, data.surname)
 }

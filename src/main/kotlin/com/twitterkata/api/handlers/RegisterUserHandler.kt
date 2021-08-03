@@ -24,7 +24,7 @@ class RegisterUserHandler(private val registerUser: RegisterUser,
     ) {
         try {
             registerUser.invoke(registerData)
-            setResponse(event, HttpResponseStatus.CREATED.code(), jsonUtility.encode(registerData))
+            setResponse(event, HttpResponseStatus.OK.code(), jsonUtility.encode(registerData))
         } catch (ex: InvalidNicknameException) {
             setResponse(event, HttpResponseStatus.BAD_REQUEST.code(), "Invalid nickname")
         } catch (ex: NicknameAlreadyUsedException) {

@@ -1,6 +1,7 @@
 package api.handlers
 
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.verify
 import com.twitterkata.api.handlers.RegisterUserHandler
 import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.users.InvalidNicknameException
@@ -26,38 +27,50 @@ class RegisterUserHandlerShould {
     val jsonUtility = mock(JsonUtility::class.java)
     val response = mock(HttpServerResponse::class.java)
     val registerUserHandler = RegisterUserHandler(registerUser, jsonUtility)
-    
-    @Ignore
+
     @Test
     fun saveUserWhenRegisterDataIsGiven() {
         givenRegisterData()
         Mockito.doNothing().`when`(registerUser).invoke(registerData)
         whenRegisterUser()
-        assertEquals(200,  response.statusCode)
+        verifyCreatedUserIsReturned()
     }
 
     @Test
     fun throwErrorIfNicknameAlreadyExists() {
         givenRegisterData()
         givenNicknameAlreadyUsedException()
-
         whenRegisterUser()
-
-        assertEquals(400, response.statusCode)
-    }
-
-    private fun givenNicknameAlreadyUsedException() {
-        Mockito.`when`(registerUser.invoke(registerData)).thenThrow(NicknameAlreadyUsedException())
+        verifyExistentNicknameIsReturned()
     }
 
     @Test
     fun throwErrorIfNicknameIsNotValid() {
         givenRegisterData()
         givenInvalidNicknameException()
-
         whenRegisterUser()
+        verifyInvalidNicknameIsReturned()
+    }
 
-        assertEquals(400, response.statusCode)
+    private fun verifyCreatedUserIsReturned() {
+        verify(response).setStatusCode(200)
+        verify(response).end(requestBody)
+    }
+
+
+
+    private fun verifyExistentNicknameIsReturned() {
+        verify(response).setStatusCode(400)
+        verify(response).end("Nickname already used")
+    }
+
+    private fun verifyInvalidNicknameIsReturned() {
+        verify(response).setStatusCode(400)
+        verify(response).end("Invalid nickname")
+    }
+
+    private fun givenNicknameAlreadyUsedException() {
+        Mockito.`when`(registerUser.invoke(registerData)).thenThrow(NicknameAlreadyUsedException())
     }
 
     private fun givenInvalidNicknameException() {
@@ -69,7 +82,7 @@ class RegisterUserHandlerShould {
     }
 
     private fun givenRegisterData() {
-        Mockito.`when`(event.getBodyAsString()).thenReturn(requestBody)
+        Mockito.`when`(event.getBodyAsString("")).thenReturn(requestBody)
         Mockito.`when`(event.response()).thenReturn(response)
         Mockito.`when`(jsonUtility.jsonToRegisterData(requestBody)).thenReturn(registerData)
         Mockito.`when`(jsonUtility.encode(registerData)).thenReturn(requestBody)

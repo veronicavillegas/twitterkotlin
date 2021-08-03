@@ -1,5 +1,6 @@
 package actions.users
 
+import com.twitterkata.domain.UpdateUserData
 import com.twitterkata.domain.users.InexistentUserException
 import com.twitterkata.domain.users.User
 
@@ -16,8 +17,9 @@ internal class UpdateUserShould {
     private val updateUser = UpdateUser(userRepository)
     private val uuid = Mockito.mock(IDGenerator::class.java)
     private val idGenerated = "123"
-    private val user = User("Veronica", "Villegas", "@vero", idGenerated)
-
+    private val nickname = "@vero"
+    private val updateUserData = UpdateUserData("Veronica", "Villegas")
+    private val userToUpdate = User("Veronica", "Villegas", nickname, idGenerated)
     @BeforeEach
     fun setUp() {
         Mockito.`when`(uuid.generateId()).thenReturn(idGenerated)
@@ -25,15 +27,15 @@ internal class UpdateUserShould {
 
     @Test
     fun throwExceptionWhenUserNotExists() {
-        Mockito.`when`(userRepository.get(user.nickname)).thenReturn(null)
-        assertThrows<InexistentUserException> { updateUser(user)  }
+        Mockito.`when`(userRepository.get(nickname)).thenReturn(null)
+        assertThrows<InexistentUserException> { updateUser(nickname, updateUserData)  }
     }
 
     @Test
     fun invokeUserRepoUpdateWhenUpdateUser() {
         val savedUser = User("maria", "perez", "@vero", idGenerated)
-        Mockito.`when`(userRepository.get(user.nickname)).thenReturn(savedUser)
-        updateUser(user)
-        Mockito.verify(userRepository).update(user)
+        Mockito.`when`(userRepository.get(nickname)).thenReturn(savedUser)
+        updateUser(nickname, updateUserData)
+        Mockito.verify(userRepository).update(userToUpdate)
     }
 }
