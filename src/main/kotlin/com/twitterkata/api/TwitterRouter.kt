@@ -2,6 +2,7 @@ package com.twitterkata.api
 
 import com.twitterkata.api.handlers.*
 import com.twitterkata.domain.users.actions.RegisterUser
+import com.twitterkata.domain.users.actions.UpdateUser
 import com.twitterkata.domain.users.repositories.UserMySqlRepository
 import com.twitterkata.infraestructure.JsonVertxUtility
 import com.twitterkata.infraestructure.MySqlConnection
@@ -18,12 +19,14 @@ class TwitterRouter(private val vertx: Vertx) {
         //connection.initConnection()
         val userRepository = UserMySqlRepository(connection)
         val registerUser = RegisterUser(userRepository = userRepository, idGenerator = UUIDGenerator())
+        val updateUser = UpdateUser(userRepository)
 
         post("$kataTwitter/users")
             .consumes("application/json")
             .handler{ context -> RegisterUserHandler(registerUser, jsonUtility).handle(context)}
+        put("$kataTwitter/users/:nickname")
+            .handler{context -> UpdateUserHandler(updateUser, jsonUtility)}
         //get("$kataTwitter/users/:nickname").handler(GetUser().handle())
-        //put("$kataTwitter/users").handler(UpdateUser())
         //put("$kataTwitter/users/follow").handler(FollowUser())
 
         //post("$kataTwitter/twitt").handler(TwitMessage())

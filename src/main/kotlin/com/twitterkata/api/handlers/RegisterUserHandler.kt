@@ -5,7 +5,6 @@ import com.twitterkata.domain.users.InvalidNicknameException
 import com.twitterkata.domain.users.NicknameAlreadyUsedException
 import com.twitterkata.domain.users.RegisterUserData
 import com.twitterkata.domain.users.actions.RegisterUser
-import io.netty.handler.codec.http.HttpResponse
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
@@ -24,21 +23,20 @@ class RegisterUserHandler(private val registerUser: RegisterUser,
     ) {
         try {
             registerUser.invoke(registerData)
-            setResponse(event, HttpResponseStatus.OK.code(), jsonUtility.encode(registerData))
+            event.setResponse(HttpResponseStatus.CREATED.code(), jsonUtility.encode(registerData))
         } catch (ex: InvalidNicknameException) {
-            setResponse(event, HttpResponseStatus.BAD_REQUEST.code(), "Invalid nickname")
+            event.setResponse(HttpResponseStatus.BAD_REQUEST.code(), "Invalid nickname")
         } catch (ex: NicknameAlreadyUsedException) {
-            setResponse(event, HttpResponseStatus.BAD_REQUEST.code(), "Nickname already used")
+            event.setResponse(HttpResponseStatus.BAD_REQUEST.code(), "Nickname already used")
         }
     }
 
-    private fun setResponse(
-        event: RoutingContext,
+    private fun RoutingContext.setResponse(
         statusCode: Int,
         responseString: String
     ) {
-        event.response().statusCode = statusCode
-        event.response().end(responseString)
+        response().statusCode = statusCode
+        response().end(responseString)
     }
 
 }

@@ -55,7 +55,7 @@ class RegisterUserHandlerShould {
     }
 
     private fun verifyCreatedUserIsReturned() {
-        verify(response).setStatusCode(200)
+        verify(response).statusCode = 201
         verify(response).end(requestBody)
     }
 

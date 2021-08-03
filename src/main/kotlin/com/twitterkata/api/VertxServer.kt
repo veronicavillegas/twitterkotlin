@@ -12,17 +12,14 @@ class VertxServer: AbstractVerticle()  {
     override fun start() {
         val router = Router.router(vertx)
         createServer(router)
-        router.route().handler(BodyHandler.create())  // Required for RoutingContext.bodyAsString
+        router.route().handler(BodyHandler.create())
         TwitterRouter(vertxServer).applyRoutes(router)
     }
 
     private fun createServer(router: Router) {
         vertxServer.createHttpServer()
-            // Handle every request using the router
             .requestHandler(router)
-            // Start listening
             .listen(port)
-            // Print the port
             .onSuccess { server ->
                 println("HTTP server started on port " + server.actualPort())
             }

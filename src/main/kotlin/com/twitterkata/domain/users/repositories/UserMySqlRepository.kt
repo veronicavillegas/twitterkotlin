@@ -16,7 +16,7 @@ class UserMySqlRepository(connection: DataBaseConnection): UserRepository {
         val query = "SELECT * FROM users WHERE nickname ='$nickname'"
         val resultSet = mySqlConnection.executeMySQLQuery(query)
         if(resultSet?.next() == true) {
-            return resultSet?.let { mapUser(it) }
+            return mapUser(resultSet)
         }
         return null
     }
