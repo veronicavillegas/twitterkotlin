@@ -1,7 +1,7 @@
 package com.twitterkata.api.handlers
 
 import com.twitterkata.domain.JsonUtility
-import com.twitterkata.domain.UpdateUserData
+import com.twitterkata.domain.users.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.vertx.core.Handler
@@ -12,8 +12,16 @@ class UpdateUserHandler(private val updateUser: UpdateUser,
     override fun handle(event: RoutingContext) {
         val updateUserData = jsonUtility.jsonToUpdateUserData(event.getBodyAsString(""))
         val nickname = event.request().getParam("nickname")
-        updateUser.invoke(nickname, updateUserData)
-        event.response().setStatusCode(HttpResponseStatus.OK.code())
+        try{
+            updateUser.invoke(nickname, updateUserData)
+            setResponse(event, HttpResponseStatus.OK.code(), "User updated")
+        } catch (ex: InexistentUserException) {
+            setResponse(event, HttpResponseStatus.BAD_REQUEST.code(), "Inexistent user")
+        }
     }
 
+    private fun setResponse(event: RoutingContext, code: Int, end: String) {
+        event.response().statusCode = code
+        event.response().end(end)
+    }
 }

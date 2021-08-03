@@ -7,15 +7,12 @@ import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.UpdateUserData
 import com.twitterkata.domain.users.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
-import com.twitterkata.infraestructure.JsonVertxUtility
 import io.vertx.core.http.HttpServerRequest
 import io.vertx.core.http.HttpServerResponse
 import io.vertx.ext.web.RoutingContext
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.Mockito.spy
 
 class UpdateUserHandlerShould {
     val event = mock(RoutingContext::class.java)
@@ -25,8 +22,8 @@ class UpdateUserHandlerShould {
     val updateUserHandler = UpdateUserHandler(updateUser, jsonUtility)
     val request = mock(HttpServerRequest::class.java)
     val response = mock(HttpServerResponse::class.java)
-    val body = "{\n\t\"surname\": \"villegas\", \n\t\"firstName\": \"vero\"\n}"
-    val updateUserData = Gson().fromJson(body, UpdateUserData::class.java)
+    val updateUserData = UpdateUserData("veronica", "villegas")
+    val body = Gson().toJson(updateUserData)
     val nickname = "@vero"
 
     @Test
@@ -36,9 +33,10 @@ class UpdateUserHandlerShould {
         givenJsonUtility()
         givenUpdateUserAction()
 
-        updateUserHandler.handle(event)
-        verify(updateUser).invoke(nickname, updateUserData)
-        verify(response).setStatusCode(200)
+        whenUpdateUser()
+
+        thenUserSucessfullyUpdated()
+
     }
 
     @Test
@@ -48,10 +46,26 @@ class UpdateUserHandlerShould {
         givenJsonUtility()
         givenUpdateUserActionWithInexistentUserError()
 
-        updateUserHandler.handle(event)
+        whenUpdateUser()
+
+        thenInexistenUserIsReturned()
+    }
+
+
+    private fun thenUserSucessfullyUpdated() {
+        verify(updateUser).invoke(nickname, updateUserData)
+        verify(response).setStatusCode(200)
+        verify(response).end("User updated")
+    }
+
+    private fun thenInexistenUserIsReturned() {
         verify(updateUser).invoke(nickname, updateUserData)
         verify(response).setStatusCode(400)
         verify(response).end("Inexistent user")
+    }
+
+    private fun whenUpdateUser() {
+        updateUserHandler.handle(event)
     }
 
     private fun givenUpdateUserAction() {
