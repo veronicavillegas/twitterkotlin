@@ -27,7 +27,7 @@ class UpdateUserHandlerShould {
     val nickname = "@vero"
 
     @Test
-    fun updateUserWhenDataIsCorrect() {
+    fun `update user when data is correct`() {
         givenUpdateUserRequest()
         givenMockResponse()
         givenJsonUtility()
@@ -40,7 +40,7 @@ class UpdateUserHandlerShould {
     }
 
     @Test
-    fun throwExceptionWhenUserNotExists() {
+    fun `throw exception when user not exists`() {
         givenUpdateUserRequest()
         givenMockResponse()
         givenJsonUtility()
