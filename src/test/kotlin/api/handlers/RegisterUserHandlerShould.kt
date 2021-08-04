@@ -80,7 +80,7 @@ class RegisterUserHandlerShould {
     }
 
     private fun givenRegisterData() {
-        Mockito.`when`(event.getBodyAsString("")).thenReturn(requestBody)
+        Mockito.`when`(event.getBodyAsString("utf-8")).thenReturn(requestBody)
         Mockito.`when`(event.response()).thenReturn(response)
         Mockito.`when`(jsonUtility.jsonToRegisterData(requestBody)).thenReturn(registerData)
         Mockito.`when`(jsonUtility.encode(registerData)).thenReturn(requestBody)

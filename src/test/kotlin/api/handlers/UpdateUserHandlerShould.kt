@@ -77,7 +77,8 @@ class UpdateUserHandlerShould {
     }
 
     private fun givenUpdateUserRequest() {
-        Mockito.`when`(event.getBodyAsString("")).thenReturn(body)
+        Mockito.`when`(event.getBodyAsString("utf-8")).thenReturn(body)
+        Mockito.`when`(event.pathParam("nickname")).thenReturn(nickname)
         Mockito.`when`(event.request()).thenReturn(request)
         Mockito.`when`(event.request().getParam("nickname")).thenReturn(nickname)
     }
