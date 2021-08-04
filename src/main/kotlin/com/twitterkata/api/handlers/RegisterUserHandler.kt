@@ -1,8 +1,8 @@
 package com.twitterkata.api.handlers
 
 import com.twitterkata.domain.JsonUtility
-import com.twitterkata.domain.users.InvalidNicknameException
-import com.twitterkata.domain.users.NicknameAlreadyUsedException
+import com.twitterkata.domain.users.exceptions.InvalidNicknameException
+import com.twitterkata.domain.users.exceptions.NicknameAlreadyUsedException
 import com.twitterkata.domain.users.RegisterUserData
 import com.twitterkata.domain.users.actions.RegisterUser
 import io.netty.handler.codec.http.HttpResponseStatus

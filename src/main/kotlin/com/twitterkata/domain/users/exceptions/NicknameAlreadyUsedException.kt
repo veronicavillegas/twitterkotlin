@@ -1,4 +1,4 @@
-package com.twitterkata.domain.users
+package com.twitterkata.domain.users.exceptions
 
 import java.lang.RuntimeException
 

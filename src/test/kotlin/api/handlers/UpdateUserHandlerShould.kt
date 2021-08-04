@@ -5,7 +5,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.twitterkata.api.handlers.UpdateUserHandler
 import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.UpdateUserData
-import com.twitterkata.domain.users.InexistentUserException
+import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
 import io.vertx.core.http.HttpServerRequest
 import io.vertx.core.http.HttpServerResponse
@@ -40,7 +40,7 @@ class UpdateUserHandlerShould {
     }
 
     @Test
-    fun `throw exception when user not exists`() {
+    fun throwExceptionWhenUserNotExists() {
         givenUpdateUserRequest()
         givenMockResponse()
         givenJsonUtility()

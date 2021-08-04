@@ -3,7 +3,7 @@ package actions.followers
 import com.nhaarman.mockitokotlin2.any
 import com.twitterkata.domain.followers.actions.GetFollowers
 import com.twitterkata.domain.followers.repositories.FollowerRepository
-import com.twitterkata.domain.users.InexistentUserException
+import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.repositories.UserRepository
 import org.junit.jupiter.api.Test

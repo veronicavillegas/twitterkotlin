@@ -1,7 +1,7 @@
 package actions.users
 
 import com.twitterkata.domain.UpdateUserData
-import com.twitterkata.domain.users.InexistentUserException
+import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.User
 
 import org.junit.jupiter.api.Test

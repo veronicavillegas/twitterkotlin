@@ -1,7 +1,7 @@
 package actions.users
 
-import com.twitterkata.domain.users.InvalidNicknameException
-import com.twitterkata.domain.users.NicknameAlreadyUsedException
+import com.twitterkata.domain.users.exceptions.InvalidNicknameException
+import com.twitterkata.domain.users.exceptions.NicknameAlreadyUsedException
 import com.twitterkata.domain.users.RegisterUserData
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.actions.RegisterUser

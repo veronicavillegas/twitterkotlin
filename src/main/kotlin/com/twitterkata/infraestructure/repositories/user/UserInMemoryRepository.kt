@@ -1,6 +1,7 @@
-package com.twitterkata.domain.users.repositories
+package com.twitterkata.infraestructure.repositories.user
 
 import com.twitterkata.domain.users.User
+import com.twitterkata.domain.users.repositories.UserRepository
 
 class UserInMemoryRepository: UserRepository {
     private val registeredUsers  = mutableMapOf<String, User>()

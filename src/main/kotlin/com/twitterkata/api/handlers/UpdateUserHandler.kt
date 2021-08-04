@@ -2,7 +2,7 @@ package com.twitterkata.api.handlers
 
 import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.UpdateUserData
-import com.twitterkata.domain.users.InexistentUserException
+import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.vertx.core.Handler

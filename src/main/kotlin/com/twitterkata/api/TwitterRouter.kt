@@ -3,10 +3,12 @@ package com.twitterkata.api
 import com.twitterkata.api.handlers.*
 import com.twitterkata.domain.users.actions.RegisterUser
 import com.twitterkata.domain.users.actions.UpdateUser
-import com.twitterkata.domain.users.repositories.UserMySqlRepository
+import com.twitterkata.infraestructure.repositories.user.UserMySqlRepository
 import com.twitterkata.infraestructure.JsonVertxUtility
-import com.twitterkata.infraestructure.MySqlConnection
+import com.twitterkata.infraestructure.database.MySqlConnection
 import com.twitterkata.infraestructure.UUIDGenerator
+import com.twitterkata.infraestructure.database.impl.Exposed
+import com.twitterkata.infraestructure.mappers.impl.UserMapperExposedImpl
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
 
@@ -15,9 +17,11 @@ class TwitterRouter(private val vertx: Vertx) {
 
     fun applyRoutes(router: Router): Router = router.apply {
         val jsonUtility = JsonVertxUtility()
+
         val connection = MySqlConnection()
-        //connection.initConnection()
-        val userRepository = UserMySqlRepository(connection)
+        connection.initConnection()
+
+        val userRepository = UserMySqlRepository(UserMapperExposedImpl(), Exposed())
         val registerUser = RegisterUser(userRepository = userRepository, idGenerator = UUIDGenerator())
         val updateUser = UpdateUser(userRepository)
 
