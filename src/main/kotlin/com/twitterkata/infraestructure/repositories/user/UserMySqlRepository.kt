@@ -16,7 +16,7 @@ class UserMySqlRepository(private val userMapper: UserMapper, private val databa
         database.save(user)
     }
 
-    override fun get(nickname: String): User {
+    override fun get(nickname: String): User? {
         return database.getUserByNickname(nickname, userMapper)
     }
 

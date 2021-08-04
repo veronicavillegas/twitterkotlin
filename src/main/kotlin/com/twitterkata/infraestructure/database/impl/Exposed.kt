@@ -22,14 +22,16 @@ class Exposed() : TwitterDataBase {
         }
     }
 
-    override fun getUserByNickname(nickname: String, userMapper: UserMapper): User {
+    override fun getUserByNickname(nickname: String, userMapper: UserMapper): User? {
         val users = transaction {
             UsersTable.select { UsersTable.nickname eq nickname }.map {
                 userMapper.toUser(it)
             }
         }
+        if(users.isEmpty()) return null
         return users[0]
     }
+
 
     override fun updateUser(user: User) {
         transaction {
