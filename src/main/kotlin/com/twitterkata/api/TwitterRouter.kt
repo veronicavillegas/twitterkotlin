@@ -28,8 +28,9 @@ class TwitterRouter(private val vertx: Vertx) {
         post("$kataTwitter/users")
             .consumes("application/json")
             .handler{ context -> RegisterUserHandler(registerUser, jsonUtility).handle(context)}
-        put("$kataTwitter/users/:nickname")
-            .handler{context -> UpdateUserHandler(updateUser, jsonUtility)}
+        put("$kataTwitter/users/:nickname/")
+            .consumes("application/json")
+            .handler{context -> UpdateUserHandler(updateUser, jsonUtility).handle(context)}
         //get("$kataTwitter/users/:nickname").handler(GetUser().handle())
         //put("$kataTwitter/users/follow").handler(FollowUser())
 
