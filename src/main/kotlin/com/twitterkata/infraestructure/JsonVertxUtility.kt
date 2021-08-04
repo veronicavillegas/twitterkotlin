@@ -1,8 +1,8 @@
 package com.twitterkata.infraestructure
 
 import com.twitterkata.domain.JsonUtility
-import com.twitterkata.domain.UpdateUserData
-import com.twitterkata.domain.users.RegisterUserData
+import com.twitterkata.domain.users.requestData.UpdateUserData
+import com.twitterkata.domain.users.requestData.RegisterUserData
 import io.vertx.core.json.Json
 
 class JsonVertxUtility: JsonUtility {

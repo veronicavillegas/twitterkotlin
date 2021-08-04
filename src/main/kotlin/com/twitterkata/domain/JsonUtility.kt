@@ -1,6 +1,7 @@
 package com.twitterkata.domain
 
-import com.twitterkata.domain.users.RegisterUserData
+import com.twitterkata.domain.users.requestData.RegisterUserData
+import com.twitterkata.domain.users.requestData.UpdateUserData
 
 interface JsonUtility {
     fun jsonToRegisterData(bodyAsString: String): RegisterUserData

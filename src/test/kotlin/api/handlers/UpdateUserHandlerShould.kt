@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.verify
 import com.twitterkata.api.handlers.UpdateUserHandler
 import com.twitterkata.domain.JsonUtility
-import com.twitterkata.domain.UpdateUserData
+import com.twitterkata.domain.users.requestData.UpdateUserData
 import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
 import io.vertx.core.http.HttpServerRequest

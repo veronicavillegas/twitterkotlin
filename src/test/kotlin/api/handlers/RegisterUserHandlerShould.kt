@@ -6,7 +6,7 @@ import com.twitterkata.api.handlers.RegisterUserHandler
 import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.users.exceptions.InvalidNicknameException
 import com.twitterkata.domain.users.exceptions.NicknameAlreadyUsedException
-import com.twitterkata.domain.users.RegisterUserData
+import com.twitterkata.domain.users.requestData.RegisterUserData
 import com.twitterkata.domain.users.actions.RegisterUser
 import io.vertx.core.http.HttpServerResponse
 import io.vertx.ext.web.RoutingContext
