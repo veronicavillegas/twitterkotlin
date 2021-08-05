@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.32"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
     application
 }
 
@@ -15,6 +16,10 @@ repositories {
 val vertxVersion = "4.1.2"
 val junitJupiterVersion = "5.6.0"
 val exposedVersion: String by project
+
+application {
+    mainClass.set("com.twitterkata.MainKt")
+}
 
 dependencies {
     implementation( "com.google.code.gson:gson:2.8.7")
@@ -44,10 +49,12 @@ tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
 }
 
-tasks.jar {
-    manifest {
-        attributes(
-            "Main-Class" to "com.twitterkata.MainKt"
-        )
+tasks {
+    named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+        archiveBaseName.set("twitterkata")
+        mergeServiceFiles()
+        manifest {
+            attributes(mapOf("Main-Class" to "com.twitterkata.MainKt"))
+        }
     }
 }

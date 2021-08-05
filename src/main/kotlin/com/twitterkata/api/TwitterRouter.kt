@@ -24,7 +24,8 @@ class TwitterRouter(private val vertx: Vertx) {
         val userRepository = UserMySqlRepository(UserMapperExposedImpl(), Exposed())
         val registerUser = RegisterUser(userRepository = userRepository, idGenerator = UUIDGenerator())
         val updateUser = UpdateUser(userRepository)
-
+        get("$kataTwitter/hello")
+            .handler{ context -> HelloHandler().handle(context)}
         post("$kataTwitter/users")
             .consumes("application/json")
             .handler{ context -> RegisterUserHandler(registerUser, jsonUtility).handle(context)}
