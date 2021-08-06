@@ -3,7 +3,7 @@ package api.handlers
 import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.verify
 import com.twitterkata.api.handlers.RegisterUserHandler
-import com.twitterkata.domain.JsonUtility
+import com.twitterkata.api.JsonMapper
 import com.twitterkata.domain.users.exceptions.InvalidNicknameException
 import com.twitterkata.domain.users.exceptions.NicknameAlreadyUsedException
 import com.twitterkata.domain.users.requestData.RegisterUserData
@@ -21,7 +21,7 @@ class RegisterUserHandlerShould {
 
     val registerUser = mock(RegisterUser::class.java)
     val event = mock(RoutingContext::class.java)
-    val jsonUtility = mock(JsonUtility::class.java)
+    val jsonUtility = mock(JsonMapper::class.java)
     val response = mock(HttpServerResponse::class.java)
 
     val registerUserHandler = RegisterUserHandler(registerUser, jsonUtility)

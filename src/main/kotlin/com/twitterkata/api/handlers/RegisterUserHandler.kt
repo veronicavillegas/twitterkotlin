@@ -1,6 +1,6 @@
 package com.twitterkata.api.handlers
 
-import com.twitterkata.domain.JsonUtility
+import com.twitterkata.api.JsonMapper
 import com.twitterkata.domain.users.exceptions.InvalidNicknameException
 import com.twitterkata.domain.users.exceptions.NicknameAlreadyUsedException
 import com.twitterkata.domain.users.requestData.RegisterUserData
@@ -10,7 +10,8 @@ import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 
 class RegisterUserHandler(private val registerUser: RegisterUser,
-                          private val jsonUtility: JsonUtility) : Handler<RoutingContext> {
+                          private val jsonUtility: JsonMapper
+) : Handler<RoutingContext> {
 
     override fun handle(event: RoutingContext) {
         val registerData = jsonUtility.jsonToRegisterData(event.getBodyAsString("utf-8"))

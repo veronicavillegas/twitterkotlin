@@ -1,11 +1,10 @@
-package com.twitterkata.infraestructure
+package com.twitterkata.api
 
-import com.twitterkata.domain.JsonUtility
 import com.twitterkata.domain.users.requestData.UpdateUserData
 import com.twitterkata.domain.users.requestData.RegisterUserData
 import io.vertx.core.json.Json
 
-class JsonVertxUtility: JsonUtility {
+class JsonVertxMapper: JsonMapper {
     override fun jsonToRegisterData(bodyAsString: String) =
         Json.decodeValue(bodyAsString, RegisterUserData::class.java)
 

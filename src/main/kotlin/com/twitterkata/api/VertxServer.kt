@@ -1,6 +1,5 @@
 package com.twitterkata.api
 
-import com.twitterkata.Factory
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router

@@ -1,6 +1,6 @@
 package com.twitterkata.api.handlers
 
-import com.twitterkata.domain.JsonUtility
+import com.twitterkata.api.JsonMapper
 import com.twitterkata.domain.users.requestData.UpdateUserData
 import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
@@ -9,7 +9,8 @@ import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 
 class UpdateUserHandler(private val updateUser: UpdateUser,
-                        private val jsonUtility: JsonUtility) : Handler<RoutingContext> {
+                        private val jsonUtility: JsonMapper
+) : Handler<RoutingContext> {
     override fun handle(event: RoutingContext) {
         val updateUserData = jsonUtility.jsonToUpdateUserData(event.getBodyAsString("utf-8"))
         val nickname = event.pathParam("nickname")

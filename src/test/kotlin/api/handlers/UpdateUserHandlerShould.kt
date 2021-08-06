@@ -3,7 +3,7 @@ package api.handlers
 import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.verify
 import com.twitterkata.api.handlers.UpdateUserHandler
-import com.twitterkata.domain.JsonUtility
+import com.twitterkata.api.JsonMapper
 import com.twitterkata.domain.users.requestData.UpdateUserData
 import com.twitterkata.domain.users.exceptions.InexistentUserException
 import com.twitterkata.domain.users.actions.UpdateUser
@@ -17,7 +17,7 @@ import org.mockito.Mockito.mock
 class UpdateUserHandlerShould {
     val event = mock(RoutingContext::class.java)
     val updateUser = mock(UpdateUser::class.java)
-    val jsonUtility = mock(JsonUtility::class.java)
+    val jsonUtility = mock(JsonMapper::class.java)
 
     val updateUserHandler = UpdateUserHandler(updateUser, jsonUtility)
     val request = mock(HttpServerRequest::class.java)
