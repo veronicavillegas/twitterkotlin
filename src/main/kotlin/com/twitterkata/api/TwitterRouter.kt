@@ -13,7 +13,7 @@ import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
 
 class TwitterRouter(private val vertx: Vertx) {
-    val kataTwitter = "/katatwitter"
+    val kataTwitter = "/katatwitter" 
 
     fun applyRoutes(router: Router): Router = router.apply {
         val jsonUtility = JsonVertxUtility()
