@@ -5,10 +5,8 @@ import com.twitterkata.domain.users.exceptions.NicknameAlreadyUsedException
 import com.twitterkata.domain.users.requestData.RegisterUserData
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.repositories.UserRepository
-import com.twitterkata.infraestructure.IDGenerator
 
-class RegisterUser (private val userRepository: UserRepository,
-                    private  val idGenerator: IDGenerator) {
+class RegisterUser (private val userRepository: UserRepository) {
 
     operator fun invoke(registerUserData: RegisterUserData)  {
         validateNickname(registerUserData.nickname)
@@ -16,7 +14,7 @@ class RegisterUser (private val userRepository: UserRepository,
     }
 
     private fun registerDataToUser(registerUserData: RegisterUserData): User {
-        return User(registerUserData.firstname, registerUserData.surname, registerUserData.nickname, idGenerator.generateId())
+        return User(registerUserData.firstname, registerUserData.surname, registerUserData.nickname, "")
     }
 
 

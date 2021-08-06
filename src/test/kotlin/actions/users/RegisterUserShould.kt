@@ -6,7 +6,6 @@ import com.twitterkata.domain.users.requestData.RegisterUserData
 import com.twitterkata.domain.users.User
 import com.twitterkata.domain.users.actions.RegisterUser
 import com.twitterkata.domain.users.repositories.UserRepository
-import com.twitterkata.infraestructure.IDGenerator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -15,16 +14,9 @@ import org.mockito.Mockito.mock
 
 class RegisterUserShould {
     val userRepository = mock(UserRepository::class.java)
-    val idGenerator = mock(IDGenerator::class.java)
-
-    private val registerUser = RegisterUser(userRepository, idGenerator)
+    private val registerUser = RegisterUser(userRepository)
     private val registerData = RegisterUserData("Veronica", "Villegas", "@vero")
-    val idGenerated = "123"
 
-    @BeforeEach
-    fun setUp() {
-        Mockito.`when`(idGenerator.generateId()).thenReturn(idGenerated)
-    }
 
     @Test
     fun throwExceptionWhenInvalidNickname(){
@@ -49,6 +41,6 @@ class RegisterUserShould {
     }
 
     private fun registerDataToUser(userToRegisterUser: RegisterUserData): User {
-        return User(userToRegisterUser.firstname, userToRegisterUser.surname, userToRegisterUser.nickname, idGenerated)
+        return User(userToRegisterUser.firstname, userToRegisterUser.surname, userToRegisterUser.nickname, "")
     }
 }

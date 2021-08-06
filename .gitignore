@@ -29,3 +29,5 @@ hs_err_pid*
 *build/
 *.kotlin_module
 .idea/compiler.xml
+gradle/wrapper/gradle-wrapper.properties
+gradlew.bat
