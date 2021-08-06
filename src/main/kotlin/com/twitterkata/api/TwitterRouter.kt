@@ -1,28 +1,19 @@
 package com.twitterkata.api
 
+import com.twitterkata.Factory
 import com.twitterkata.api.handlers.*
-import com.twitterkata.domain.users.actions.RegisterUser
-import com.twitterkata.domain.users.actions.UpdateUser
-import com.twitterkata.infraestructure.repositories.user.UserMySqlRepository
-import com.twitterkata.infraestructure.JsonVertxUtility
-import com.twitterkata.infraestructure.database.MySqlConnection
-import com.twitterkata.infraestructure.database.impl.Exposed
-import com.twitterkata.infraestructure.mappers.impl.UserMapperExposedImpl
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
 
-class TwitterRouter(private val vertx: Vertx) {
+class TwitterRouter(private val vertx: Vertx, private val factory: Factory) {
     val kataTwitter = "/katatwitter"
 
     fun applyRoutes(router: Router): Router = router.apply {
-        val jsonUtility = JsonVertxUtility()
+        factory.initDatabaseConnection()
+        val jsonUtility = factory.getJsonUtility()
+        val registerUser = factory.getRegisterUserAction()
+        val updateUser = factory.getUpdateUserAction()
 
-        val connection = MySqlConnection()
-        connection.initConnection()
-
-        val userRepository = UserMySqlRepository(UserMapperExposedImpl(), Exposed())
-        val registerUser = RegisterUser(userRepository)
-        val updateUser = UpdateUser(userRepository)
         get("$kataTwitter/hello")
             .handler{ context -> HelloHandler().handle(context)}
         post("$kataTwitter/users")
@@ -37,5 +28,4 @@ class TwitterRouter(private val vertx: Vertx) {
         //post("$kataTwitter/twitt").handler(TwitMessage())
         //get("$kataTwitter/twitt/:nickname").handler(GetTwitt())
     }
-
 }
