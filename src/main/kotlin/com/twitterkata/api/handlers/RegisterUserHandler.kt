@@ -10,11 +10,11 @@ import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 
 class RegisterUserHandler(private val registerUser: RegisterUser,
-                          private val jsonUtility: JsonMapper
+                          private val jsonMapper: JsonMapper
 ) : Handler<RoutingContext> {
 
     override fun handle(event: RoutingContext) {
-        val registerData = jsonUtility.jsonToRegisterData(event.getBodyAsString("utf-8"))
+        val registerData = jsonMapper.jsonToRegisterData(event.getBodyAsString("utf-8"))
         prepareResponse(registerData, event)
     }
 
@@ -24,7 +24,7 @@ class RegisterUserHandler(private val registerUser: RegisterUser,
     ) {
         try {
             registerUser.invoke(registerData)
-            event.setResponse(HttpResponseStatus.CREATED.code(), jsonUtility.encode(registerData))
+            event.setResponse(HttpResponseStatus.CREATED.code(), jsonMapper.encode(registerData))
         } catch (ex: InvalidNicknameException) {
             event.setResponse(HttpResponseStatus.BAD_REQUEST.code(), "Invalid nickname")
         } catch (ex: NicknameAlreadyUsedException) {

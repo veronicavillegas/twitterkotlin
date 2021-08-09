@@ -9,10 +9,10 @@ import io.vertx.core.Handler
 import io.vertx.ext.web.RoutingContext
 
 class UpdateUserHandler(private val updateUser: UpdateUser,
-                        private val jsonUtility: JsonMapper
+                        private val jsonMapper: JsonMapper
 ) : Handler<RoutingContext> {
     override fun handle(event: RoutingContext) {
-        val updateUserData = jsonUtility.jsonToUpdateUserData(event.getBodyAsString("utf-8"))
+        val updateUserData = jsonMapper.jsonToUpdateUserData(event.getBodyAsString("utf-8"))
         val nickname = event.pathParam("nickname")
         prepareResponse(nickname, updateUserData, event)
     }

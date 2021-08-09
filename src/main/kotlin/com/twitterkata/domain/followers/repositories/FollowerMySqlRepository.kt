@@ -1,11 +1,8 @@
 package com.twitterkata.domain.followers.repositories
 
-import com.twitterkata.domain.DataBaseConnection
 import com.twitterkata.domain.users.User
 
-class FollowerMySqlRepository(connection: DataBaseConnection): FollowerRepository {
-    private val mySqlConnection = connection
-
+class FollowerMySqlRepository(): FollowerRepository {
     override fun addFollower(userToFollow: User, followerUser: User) {
         TODO("NOT IMPLEMENTED")
     }
