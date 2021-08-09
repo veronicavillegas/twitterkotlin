@@ -7,11 +7,10 @@ import com.twitterkata.domain.users.actions.UpdateUser
 import com.twitterkata.api.JsonVertxMapper
 import com.twitterkata.domain.followers.actions.FollowUser
 import com.twitterkata.domain.followers.repositories.FollowerMySqlRepository
-import com.twitterkata.domain.followers.repositories.FollowerRepository
 import com.twitterkata.domain.users.actions.GetUser
 import com.twitterkata.domain.users.repositories.UserRepository
 import com.twitterkata.infraestructure.database.MySqlConnection
-import com.twitterkata.infraestructure.database.impl.Exposed
+import com.twitterkata.infraestructure.database.impl.ExposedDataBase
 import com.twitterkata.infraestructure.mappers.impl.UserMapperExposedImpl
 import com.twitterkata.infraestructure.repositories.user.UserInMemoryRepository
 import com.twitterkata.infraestructure.repositories.user.UserMySqlRepository
@@ -39,7 +38,7 @@ class FactoryImpl: Factory {
 
     private fun getUserRepository(): UserRepository {
         if (databaseType == "MY_SQL")
-            return UserMySqlRepository(UserMapperExposedImpl(), Exposed())
+            return UserMySqlRepository(UserMapperExposedImpl(), ExposedDataBase())
         else return UserInMemoryRepository()
     }
 }

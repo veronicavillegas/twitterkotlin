@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MySqlConnection {
+object MySqlConnection {
     private var connection: Database? = null
     private val username = "root" // provide the username
     private val password = "adminadmin" // provide the corresponding password
