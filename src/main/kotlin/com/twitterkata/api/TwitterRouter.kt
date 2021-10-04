@@ -1,19 +1,19 @@
 package com.twitterkata.api
 
 import com.twitterkata.api.handlers.*
-import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
 
-class TwitterRouter(private val vertx: Vertx, private val factory: Factory) {
-    val kataTwitter = "/katatwitter"
+class TwitterRouter(private val databaseInit: DatabaseInitialization, private val factoryAction: FactoryActions) {
+    private val kataTwitter = "/katatwitter"
 
     fun applyRoutes(router: Router): Router = router.apply {
-        factory.initDatabaseConnection()
-        val jsonMapper = factory.getJsonMapper()
-        val registerUser = factory.getRegisterUserAction()
-        val updateUser = factory.getUpdateUserAction()
-        val getUser = factory.getUserAction()
-        val followUser = factory.getFollowUserAction()
+        databaseInit.initDatabaseConnection()
+        val jsonMapper = databaseInit.getJsonMapper()
+
+        val registerUser = factoryAction.getRegisterUserAction()
+        val updateUser = factoryAction.getUpdateUserAction()
+        val getUser = factoryAction.getUserAction()
+        val followUser = factoryAction.getFollowUserAction()
 
         get("$kataTwitter/hello")
             .handler{ context -> HelloHandler().handle(context)}

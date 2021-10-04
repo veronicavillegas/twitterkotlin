@@ -5,15 +5,15 @@ import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
 
-class VertxServer(private val factory: Factory): AbstractVerticle()  {
-    val port = 8888
-    val vertxServer = Vertx.vertx()
+class VertxServer(private val databaseInit: DatabaseInitialization, private val factoryActions: FactoryActions): AbstractVerticle()  {
+    private val port = 8888
+    private val vertxServer = Vertx.vertx()
 
     override fun start() {
         val router = Router.router(vertx)
         createServer(router)
         router.route().handler(BodyHandler.create())
-        TwitterRouter(vertxServer, factory).applyRoutes(router)
+        TwitterRouter(databaseInit, factoryActions).applyRoutes(router)
     }
 
     private fun createServer(router: Router) {
