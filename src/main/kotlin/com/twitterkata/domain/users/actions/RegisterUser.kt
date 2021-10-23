@@ -14,16 +14,14 @@ class RegisterUser (private val userRepository: UserRepository) {
     }
 
     private fun registerDataToUser(registerUserData: RegisterUserData): User {
-        return User(registerUserData.firstname, registerUserData.surname, registerUserData.nickname, "")
+        return User(registerUserData.firstname, registerUserData.surname, registerUserData.nickname)
     }
 
 
     private fun validateNickname(nickname: String) {
-        if(isNotValidNickname(nickname)) {
-            throw InvalidNicknameException()
-        }
-        if(isNicknameAlreadyUsed(nickname)) {
-            throw NicknameAlreadyUsedException()
+        when{
+            isNotValidNickname(nickname) -> throw InvalidNicknameException()
+            isNicknameAlreadyUsed(nickname) -> throw NicknameAlreadyUsedException()
         }
     }
 

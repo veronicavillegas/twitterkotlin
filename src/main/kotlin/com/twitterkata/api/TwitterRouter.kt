@@ -20,8 +20,7 @@ class TwitterRouter(private val databaseInit: DatabaseInitialization, private va
         post("$kataTwitter/users")
             .consumes("application/json")
             .handler{ context -> RegisterUserHandler(registerUser, jsonMapper).handle(context)}
-        put("$kataTwitter/users/:nickname/")
-            .consumes("application/json")
+        put("$kataTwitter/users/:nickname")
             .handler{context -> UpdateUserHandler(updateUser, jsonMapper).handle(context)}
         get("$kataTwitter/users/:nickname")
             .handler{context -> GetUserHandler(getUser, jsonMapper).handle(context)}

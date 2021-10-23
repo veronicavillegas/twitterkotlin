@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.4.32"
     id("com.github.johnrengelman.shadow") version "7.0.0"
@@ -38,6 +36,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("mysql:mysql-connector-java:5.1.48")
+    testImplementation("io.mockk:mockk:1.12.0")
 
 }
 
@@ -45,10 +44,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
+    kotlinOptions.jvmTarget = "1.8"
 }
-
+/*
 tasks {
     named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
         archiveBaseName.set("twitterkata")
@@ -57,4 +56,4 @@ tasks {
             attributes(mapOf("Main-Class" to "com.twitterkata.MainKt"))
         }
     }
-}
+}*/
